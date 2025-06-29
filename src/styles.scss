@@ -1,1 +1,43 @@
 /* You can add global styles to this file, and also import other style files */
+@import "primeicons/primeicons.css";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+}
+// colors
+$primary-color: #ffe353;
+$text-color: #000;
+$grey-font-color: #858585;
+$hightRate-color: #20c675;
+$lowRate-color: #d2d531;
+$bg-color-gray: #f3f1f1;
+$main-bg-color: #fff;
+
+// general styles
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: $text-color;
+}
+
+h2 {
+  font-size: 32px;
+  font-weight: 600;
+  color: $text-color;
+}
+
+p {
+  font-size: 14px;
+  font-weight: 400;
+  color: $text-color;
+}
