@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { MenubarModule } from 'primeng/menubar';
 import { ButtonModule } from 'primeng/button';
-import { UseStyle } from 'primeng/usestyle';
 
 @Component({
   selector: 'app-navbar',
@@ -11,11 +10,21 @@ import { UseStyle } from 'primeng/usestyle';
   styleUrl: './navbar.scss',
 })
 export class Navbar implements OnInit {
-  items: any[] = [];
+  items = signal<any[]>([]);
+
+  isLoggedIn = signal(true);
+  user = {
+    name: 'Omar',
+    email: 'omar@example.com',
+  };
 
   wishlistCount: number = 0;
   ngOnInit() {
-    this.items = [
+    this.generateMenuItems();
+  }
+
+  generateMenuItems() {
+    this.items.set([
       {
         label: 'Home',
         icon: 'pi pi-home',
@@ -39,11 +48,37 @@ export class Navbar implements OnInit {
         icon: 'pi pi-user-plus',
         routerLink: '/register',
       },
-      {
-        label: 'Login',
-        icon: 'pi pi-sign-in',
-        routerLink: '/login',
-      },
-    ];
+      this.isLoggedIn()
+        ? {
+            label: this.user.name,
+            icon: 'pi pi-user',
+            styleClass: 'auth-link',
+            items: [
+              {
+                label: 'Profile',
+                icon: 'pi pi-id-card',
+                routerLink: '/profile',
+              },
+              {
+                label: 'Logout',
+                icon: 'pi pi-sign-out',
+                command: () => this.logout(),
+              },
+            ],
+          }
+        : {
+            label: 'Login',
+            icon: 'pi pi-sign-in',
+            routerLink: '/login',
+            styleClass: 'auth-link',
+          },
+    ]);
+  }
+
+  logout() {
+    this.isLoggedIn.set(false);
+    this.generateMenuItems();
+
+    console.log(this.isLoggedIn());
   }
 }
