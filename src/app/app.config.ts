@@ -6,9 +6,8 @@ import {
 import { provideRouter } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeng/themes/aura';
-
 import { routes } from './app.routes';
+import MyCustomColors from './MyCustomColors';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,11 +17,15 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
-        preset: Aura,
+        preset: MyCustomColors,
         options: {
-          prefix: 'p',
-          darkModeSelector: 'class',
+          darkModeSelector: '.dark',
           cssLayer: false,
+          darkMode: {
+            selector: 'class',
+            class: 'dark',
+            prefersColorScheme: true,
+          },
         },
       },
     }),

@@ -1,0 +1,13 @@
+<p-card class="hero-card">
+  <ng-template pTemplate="header">
+    <h2>Welcome to our movie app</h2>
+  </ng-template>
+
+  <p>Millions of movies, TV shows and people to discover. Explore now.</p>
+
+  <div class="search-bar">
+    <input type="text" pInputText [(ngModel)]="searchQuery" placeholder="Search and explore...."
+      (keyup.enter)="onSearch()" />
+    <button pButton type="button" label="Search" (click)="onSearch()"></button>
+  </div>
+</p-card>

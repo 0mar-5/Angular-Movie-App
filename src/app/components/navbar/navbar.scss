@@ -1,84 +1,25 @@
-@use "../../../styles.scss" as vars;
-
-::ng-deep .p-menubar {
-  width: 100%;
-  padding: 20px !important;
-  font-size: 18px;
-  font-weight: 500;
-  border: none !important;
-  border-radius: 0 !important;
-  background-color: vars.$primary-color !important;
-  box-shadow: 0 2px 13px rgba(0, 0, 0, 0.3);
-  justify-content: space-between;
-}
-
-.logo {
-  font-size: 25px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-::ng-deep .p-menubar-item-content {
-  &:hover,
-  &:active {
-    background-color: vars.$hover-color !important;
+:host ::ng-deep {
+  .p-menubar {
+    padding: 20px !important;
+    border-radius: 0 !important;
+    background: var(--primary-500) !important;
+    justify-content: space-between;
+    align-items: baseline;
   }
-
-  .p-menubar-item-label {
-    color: vars.$text-color;
+  .p-menubar-start {
+    font-size: 25px;
+    font-weight: 600;
   }
-}
-
-::ng-deep .p-button-text {
-  color: #000;
-
-  &:hover {
-    background-color: vars.$hover-color !important;
+  .p-menubarsub {
+    display: flex;
+    justify-content: flex-end;
   }
-}
-
-::ng-deep .p-menubar-mobile {
-  .p-menubar-button {
-    margin-left: auto;
-    background-color: vars.$primary-color !important;
-
-    &:hover,
-    &:active {
-      background: none !important;
-    }
+  .p-button {
+    color: var(--primary-contrast-500) !important ;
   }
-
-  &-active {
-    .p-menubar-root-list {
-      justify-content: center;
-      background-color: rgba(0, 0, 0, 0.84);
-      border: none;
-
-      .p-menubar-item-content .p-menubar-item-label {
-        color: vars.$main-bg-color;
-      }
-    }
+  .p-menubar-end {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    margin-left: 0 !important ;
   }
-}
-
-::ng-deep .p-menubar-submenu,
-::ng-deep .p-menubar-item-active > .p-menubar-item-content,
-::ng-deep .auth-link p-menubar-item {
-  background-color: vars.$primary-color;
-}
-
-::ng-deep .p-menubar-end:empty {
-  display: none;
-}
-
-::ng-deep .p-menubar .auth-link {
-  background-color: vars.$primary-color !important;
-
-  .p-menubar-item-content {
-    background-color: vars.$primary-color !important;
-  }
-}
-
-::ng-deep .p-menubar .auth-link:hover {
-  background-color: vars.$hover-color !important;
 }

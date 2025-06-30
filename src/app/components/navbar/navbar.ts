@@ -11,6 +11,7 @@ import { ButtonModule } from 'primeng/button';
 })
 export class Navbar implements OnInit {
   items = signal<any[]>([]);
+  isDark = signal(false);
 
   isLoggedIn = signal(true);
   user = {
@@ -21,6 +22,19 @@ export class Navbar implements OnInit {
   wishlistCount: number = 0;
   ngOnInit() {
     this.generateMenuItems();
+
+    const theme = localStorage.getItem('theme');
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+      this.isDark.set(true);
+    }
+  }
+
+  toggleDarkMode() {
+    const html = document.documentElement;
+    html.classList.toggle('dark');
+    this.isDark.set(html.classList.contains('dark'));
+    localStorage.setItem('theme', this.isDark() ? 'dark' : 'light');
   }
 
   generateMenuItems() {
