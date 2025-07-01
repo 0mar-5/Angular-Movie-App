@@ -5,7 +5,10 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+html,
+body {
+  scroll-behavior: smooth;
+}
 body {
   font-family: "Inter", sans-serif;
   overflow-x: hidden;
@@ -17,6 +20,7 @@ body {
   --primary-900: #998832;
   --primary-contrast-500: #000000;
   --p-inputtext-background: #fff !important;
+  scroll-behavior: smooth;
 }
 
 .dark {

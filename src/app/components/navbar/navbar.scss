@@ -6,9 +6,13 @@
     justify-content: space-between;
     align-items: baseline;
   }
-  .p-menubar-start {
+  .p-menubar-start a {
     font-size: 25px;
     font-weight: 600;
+    color: var(--primary-contrast-500);
+  }
+  .p-menubar-item-label {
+    font-weight: 500;
   }
   .p-menubarsub {
     display: flex;

@@ -1,10 +1,11 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { KnobModule } from 'primeng/knob';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import { RatingModule } from 'primeng/rating';
 import { ButtonModule } from 'primeng/button';
+import { MovieStore } from '../../store/movie.store';
 
 @Component({
   selector: 'app-movie-card',
@@ -20,12 +21,9 @@ import { ButtonModule } from 'primeng/button';
   styleUrl: './movie-card.scss',
 })
 export class MovieCard {
-  isFav = false;
+  moviesStore = inject(MovieStore);
   readonly _movie = input<any>();
 
-  toggleFav() {
-    this.isFav = !this.isFav;
-  }
   getVoteAveragePercent(movieRate: number): number {
     return Math.round((movieRate || 0) * 10);
   }

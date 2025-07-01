@@ -3,6 +3,7 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
   padding: 1rem;
+  align-items: stretch;
 }
 
 h2 {
@@ -50,12 +51,26 @@ h2 {
 
           &:hover,
           &:active {
-            background-color: #facc15 !important;
-            color: #000 !important;
+            background-color: #facc15;
+            color: #000;
           }
         }
       }
     }
+  }
+}
+
+// loadding spinner
+.spinner-wrapper {
+  grid-column: 1 / -1;
+  justify-self: center;
+  align-self: center;
+  margin: 2rem 0;
+
+  p {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #000;
   }
 }
 

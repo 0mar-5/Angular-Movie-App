@@ -2,15 +2,16 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
 import { MenubarModule } from 'primeng/menubar';
 import { ButtonModule } from 'primeng/button';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
-  imports: [CommonModule, ButtonModule, MenubarModule],
+  imports: [CommonModule, ButtonModule, MenubarModule, RouterLink],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
 })
 export class Navbar implements OnInit {
-  items = signal<any[]>([]);
+  menuItems = signal<any[]>([]);
   isDark = signal(false);
 
   isLoggedIn = signal(true);
@@ -19,7 +20,6 @@ export class Navbar implements OnInit {
     email: 'omar@example.com',
   };
 
-  wishlistCount: number = 0;
   ngOnInit() {
     this.generateMenuItems();
 
@@ -38,7 +38,8 @@ export class Navbar implements OnInit {
   }
 
   generateMenuItems() {
-    this.items.set([
+    this.menuItems.update((prev) => [
+      ...prev,
       {
         label: 'Home',
         icon: 'pi pi-home',
@@ -50,10 +51,7 @@ export class Navbar implements OnInit {
         routerLink: '/tv',
       },
       {
-        label:
-          this.wishlistCount === 0
-            ? 'Wishlist'
-            : this.wishlistCount + ' Wishlist',
+        label: 'Wishlist',
         icon: 'pi pi-heart',
         routerLink: '/wishlist',
       },

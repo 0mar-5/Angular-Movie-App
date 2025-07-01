@@ -1,0 +1,195 @@
+.watchList {
+  padding: 1rem 1.2rem 0;
+}
+.movie__wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.movie-card {
+  display: flex;
+  background-color: var(--p-inputtext-background);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  ::ng-deep .p-card {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+
+  ::ng-deep .p-card-body {
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .movie__img {
+    width: 10rem;
+    height: 100%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .card-header {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+
+    .card-title {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    .release-rating {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: #666;
+
+      .release-date,
+      .rating {
+        color: var(--primary-contrast-500);
+        padding: 0.5rem 0;
+      }
+
+      .movie__description {
+        font-size: 20px;
+        font-weight: 400;
+        letter-spacing: 10px;
+      }
+    }
+  }
+}
+
+// hart style
+.pi {
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: #999;
+  transition: color 0.3s ease;
+
+  &.active {
+    color: #facc15;
+  }
+
+  &:hover {
+    color: #facc15;
+  }
+}
+
+// star style
+.rating-stars {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+
+  i.pi {
+    font-size: 1.2rem;
+    color: #ccc;
+
+    &.pi-star-fill {
+      color: #fbc02d;
+    }
+  }
+  .vote-count {
+    margin-left: 1rem;
+  }
+}
+
+// Responsive styles
+
+@media (max-width: 1024px) {
+  .movie__wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .movie-card {
+    flex-direction: column;
+
+    ::ng-deep .p-card {
+      flex-direction: column;
+    }
+
+    ::ng-deep .p-card-body {
+      flex-direction: column;
+    }
+
+    .movie__img {
+      width: 100%;
+      height: auto;
+    }
+
+    .card-header {
+      h2 {
+        font-size: 1.3rem;
+      }
+
+      .release-rating {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+
+        .movie__description {
+          font-size: 1rem;
+          letter-spacing: normal;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .watchList {
+    padding: 0.5rem;
+  }
+
+  .movie__wrapper {
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+
+  .movie-card {
+    box-shadow: none;
+    border-radius: 8px;
+  }
+
+  .card-header {
+    padding: 0.5rem;
+
+    h2 {
+      font-size: 1.1rem;
+    }
+
+    .release-rating {
+      font-size: 0.75rem;
+    }
+  }
+
+  .pi {
+    font-size: 1.4rem;
+  }
+
+  .rating-stars i.pi {
+    font-size: 1rem;
+  }
+}
