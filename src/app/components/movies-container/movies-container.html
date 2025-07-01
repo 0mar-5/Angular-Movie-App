@@ -1,0 +1,10 @@
+<h2>Now Playing</h2>
+<section class="movies__wrapper">
+  @for (movie of moviesArr(); track movie.id) {
+  <app-movie-card [_movie]="movie" />
+  }
+  <div class="paginator-wrapper">
+    <p-paginator [first]="first" [rows]="rows" [totalRecords]="rows * 30" (onPageChange)="onPageChange($event)" />
+  </div>
+
+</section>

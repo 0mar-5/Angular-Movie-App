@@ -1,0 +1,76 @@
+.movies__wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+h2 {
+  padding-left: 0.8rem;
+}
+// paginator styles
+
+.paginator-wrapper {
+  grid-column: 1 / -1;
+  justify-self: center;
+  margin-top: 2rem;
+}
+:host ::ng-deep .p-paginator {
+  margin-top: 2rem;
+  justify-content: center;
+  display: flex;
+  padding: 1rem;
+  border-radius: 12px;
+  background-color: #0f172a;
+  color: #fff;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+:host ::ng-deep .p-paginator .p-paginator-page {
+  background-color: transparent;
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+:host ::ng-deep .p-paginator .p-paginator-icon {
+  color: #facc15;
+}
+
+:host ::ng-deep {
+  .p-paginator {
+    .p-paginator-pages {
+      .p-paginator-page {
+        &.p-highlight {
+          background-color: #facc15;
+          color: #000;
+          border-radius: 6px;
+          font-weight: bold;
+
+          &:hover,
+          &:active {
+            background-color: #facc15 !important;
+            color: #000 !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .movies__wrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 875px) {
+  .movies__wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .movies__wrapper {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
