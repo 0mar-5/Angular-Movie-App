@@ -34,4 +34,22 @@ export class MovieCard {
     const percent = this.getVoteAveragePercent(score);
     return percent >= 70 ? 'green-stroke' : 'yellow-stroke';
   }
+
+  // if the image did not found
+  fallbackImage = 'https://placehold.co/350x400';
+
+  getImageUrl(media: any): string {
+    return media.poster_path || media.profile_path
+      ? 'https://image.tmdb.org/t/p/w500' +
+          (media.poster_path || media.profile_path)
+      : this.fallbackImage;
+  }
+
+  onImageError(event: Event) {
+    const target = event.target as HTMLImageElement;
+
+    if (target.src !== this.fallbackImage) {
+      target.src = this.fallbackImage;
+    }
+  }
 }

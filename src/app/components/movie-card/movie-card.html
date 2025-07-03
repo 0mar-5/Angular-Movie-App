@@ -1,7 +1,7 @@
 <p-card *ngIf="_mediaData() as media" class="movie-card hover-animate" [routerLink]="['/' + type(), media.id]">
   <ng-template #header>
-    <img alt="Card" class="movie__img"
-      [src]="'https://image.tmdb.org/t/p/w500' + (media.poster_path || media.profile_path)" [alt]="media.title" />
+    <img alt="Card" class="movie__img" [src]="getImageUrl(media)" [alt]="media.title || media.name"
+      (error)="onImageError($event)" />
   </ng-template>
   <h3> {{ media.title || media.name}} </h3>
   <div class="movie__info">

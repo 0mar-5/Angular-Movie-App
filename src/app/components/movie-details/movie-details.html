@@ -35,8 +35,17 @@
           }
         </div>
         <div class="movie__info">
-          <span>Duration: <span>{{media.runtime}} Min </span></span>
-          <span>Languages: <span>{{media.spoken_languages[0].name }} </span></span>
+          <span>Duration:
+            <span>
+              {{ media.runtime ? (media.runtime + ' Min') : (media.number_of_seasons ? (media.number_of_seasons + '
+              seasons') : 'N/A') }}
+            </span>
+          </span>
+          <span>Languages:
+            <span>
+              {{ media.spoken_languages && media.spoken_languages.length > 0 ? media.spoken_languages[0].name : 'N/A' }}
+            </span>
+          </span>
         </div>
         <div class="movie-companys__logos">
           @for (logo of media.production_companies; track $index) {
@@ -59,6 +68,34 @@
   </p-card>
 
 </ng-container>
+
+@if (_reviews() && _reviews().length > 0) {
+<h2 class="reviews__title">Reviews</h2>
+
+<p-accordion [value]="0">
+  @for (review of _reviews(); track review.id) {
+  <div class="review-accordion">
+
+    <p-accordion-panel [value]="review.author">
+      <p-accordion-header>Author: {{ review.author }}</p-accordion-header>
+      <p-accordion-content>
+        <p class="review-date">{{ review.created_at| date }}</p>
+        <p class="review-content">{{ review.content }}</p>
+      </p-accordion-content>
+    </p-accordion-panel>
+  </div>
+  }
+</p-accordion>
+
+}
+
+@if (_reviews() && _reviews().length === 0) {
+<div class="no-reviews">
+  <p>No reviews yet</p>
+</div>
+}
+
+<!-- RECOMMENDATION SECTION -->
 <div *ngIf="_recommendations() as recMovies; else noRec " class="carousel__wrapper">
   <h2 class="rec">Recommendations</h2>
   <p-carousel [value]="recMovies" [numVisible]="5" [numScroll]="1" [circular]="true"

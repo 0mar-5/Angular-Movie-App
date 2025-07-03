@@ -8,11 +8,18 @@ import { MovieStore } from '../../store/movie.store';
 import { ButtonModule } from 'primeng/button';
 import { CarouselModule } from 'primeng/carousel';
 import { MovieCard } from '../movie-card/movie-card';
+import { AccordionModule } from 'primeng/accordion';
 
 @Component({
   selector: 'app-movie-details',
-  standalone: true,
-  imports: [CardModule, CommonModule, ButtonModule, CarouselModule, MovieCard],
+  imports: [
+    CardModule,
+    CommonModule,
+    ButtonModule,
+    CarouselModule,
+    MovieCard,
+    AccordionModule,
+  ],
   templateUrl: './movie-details.html',
   styleUrl: './movie-details.scss',
 })
@@ -22,10 +29,12 @@ export class MovieDetails implements OnInit, OnDestroy {
   readonly moviesStore = inject(MovieStore);
 
   readonly _movie = signal<any | null>(null);
+  readonly _reviews = signal<any | null>(null);
   readonly _recommendations = signal<any[] | null>(null);
 
   private movieSub?: Subscription;
   private recommendationsSub?: Subscription;
+  private reviewsSub?: Subscription;
   public mediaType: 'movie' | 'tv' = 'movie';
 
   ngOnInit(): void {
@@ -46,10 +55,18 @@ export class MovieDetails implements OnInit, OnDestroy {
           .getMovieById(this.mediaType, id)
           .subscribe((data) => {
             this._movie.set(data);
+            console.log(this._movie());
 
             this.recommendationsSub = this.movieService
               .getMediaRecommendations(this.mediaType, id)
               .subscribe((recs) => this._recommendations.set(recs));
+
+            this.reviewsSub = this.movieService
+              .getReviews(this.mediaType, id)
+              .subscribe((reviews) => {
+                this._reviews.set(reviews);
+                console.log(this._reviews());
+              });
           });
       }
     });
@@ -67,5 +84,6 @@ export class MovieDetails implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.movieSub?.unsubscribe();
     this.recommendationsSub?.unsubscribe();
+    this.reviewsSub?.unsubscribe();
   }
 }

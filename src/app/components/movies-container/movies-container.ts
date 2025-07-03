@@ -1,10 +1,11 @@
-import { Component, input, OnInit, signal } from '@angular/core';
+import { Component, input, OnDestroy, OnInit, signal } from '@angular/core';
 import { MovieCard } from '../movie-card/movie-card';
 import { MoviesService } from '../../Services/movies-service';
 import { PaginatorModule } from 'primeng/paginator';
 import { CommonModule } from '@angular/common';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { Hero } from '../hero/hero';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-movies-container',
@@ -18,9 +19,11 @@ import { Hero } from '../hero/hero';
   templateUrl: './movies-container.html',
   styleUrl: './movies-container.scss',
 })
-export class MoviesContainer implements OnInit {
+export class MoviesContainer implements OnInit, OnDestroy {
   moviesArr = signal<any[]>([]);
   loading = signal(false);
+  private mediaSub?: Subscription;
+
   readonly type = input<'movie' | 'tv'>('movie');
 
   first = 0;
@@ -33,10 +36,12 @@ export class MoviesContainer implements OnInit {
   }
 
   loadMovies(page: number) {
-    this.moviesService.getMediaPages(this.type(), page).subscribe((movies) => {
-      this.moviesArr.set(movies);
-      console.log(this.moviesArr());
-    });
+    this.mediaSub = this.moviesService
+      .getMediaPages(this.type(), page)
+      .subscribe((movies) => {
+        this.moviesArr.set(movies);
+        console.log(this.moviesArr());
+      });
   }
 
   onPageChange(event: any) {
@@ -53,5 +58,9 @@ export class MoviesContainer implements OnInit {
       top: 0,
       behavior: 'smooth',
     });
+  }
+
+  ngOnDestroy(): void {
+    this.mediaSub?.unsubscribe();
   }
 }

@@ -1,0 +1,5 @@
+<section class="movies__wrapper mt">
+  @for (media of mediaArr(); track media.id) {
+  <app-movie-card [_mediaData]="media" [type]="type()"></app-movie-card>
+  }
+</section>

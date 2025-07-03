@@ -4,6 +4,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { ButtonModule } from 'primeng/button';
 import { RouterLink } from '@angular/router';
 import { MovieStore } from '../../store/movie.store';
+import { LanguageService } from '../../Services/language-service';
 
 @Component({
   selector: 'app-navbar',
@@ -54,9 +55,20 @@ export class Navbar implements OnInit {
         routerLink: '/tv',
       },
       {
-        label: 'Register',
-        icon: 'pi pi-user-plus',
-        routerLink: '/register',
+        label: 'Popular',
+        icon: 'pi pi-star',
+        items: [
+          {
+            label: 'movies',
+            icon: 'pi pi-camera',
+            routerLink: '/popular-movies',
+          },
+          {
+            label: 'TV Shows',
+            icon: 'pi pi-video',
+            routerLink: '/popular-tv',
+          },
+        ],
       },
       this.isLoggedIn()
         ? {
