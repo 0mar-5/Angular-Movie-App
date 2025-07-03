@@ -9,6 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { CarouselModule } from 'primeng/carousel';
 import { MovieCard } from '../movie-card/movie-card';
 import { AccordionModule } from 'primeng/accordion';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-movie-details',
@@ -19,6 +20,7 @@ import { AccordionModule } from 'primeng/accordion';
     CarouselModule,
     MovieCard,
     AccordionModule,
+    ProgressSpinnerModule,
   ],
   templateUrl: './movie-details.html',
   styleUrl: './movie-details.scss',
@@ -36,8 +38,11 @@ export class MovieDetails implements OnInit, OnDestroy {
   private recommendationsSub?: Subscription;
   private reviewsSub?: Subscription;
   public mediaType: 'movie' | 'tv' = 'movie';
+  loading = true;
 
   ngOnInit(): void {
+    // Show spinner
+    this.loading = true;
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
       const path = this.route.snapshot.routeConfig?.path;
@@ -53,22 +58,37 @@ export class MovieDetails implements OnInit, OnDestroy {
 
         this.movieSub = this.movieService
           .getMovieById(this.mediaType, id)
-          .subscribe((data) => {
-            this._movie.set(data);
-            console.log(this._movie());
+          .subscribe(
+            (data) => {
+              this._movie.set(data);
+              console.log(this._movie());
+              this.loading = false;
+              this.recommendationsSub = this.movieService
+                .getMediaRecommendations(this.mediaType, id)
+                .subscribe((recs) => this._recommendations.set(recs));
 
-            this.recommendationsSub = this.movieService
-              .getMediaRecommendations(this.mediaType, id)
-              .subscribe((recs) => this._recommendations.set(recs));
-
-            this.reviewsSub = this.movieService
-              .getReviews(this.mediaType, id)
-              .subscribe((reviews) => {
-                this._reviews.set(reviews);
-                console.log(this._reviews());
-              });
-          });
+              this.reviewsSub = this.movieService
+                .getReviews(this.mediaType, id)
+                .subscribe((reviews) => {
+                  this._reviews.set(reviews);
+                  console.log(this._reviews());
+                });
+            },
+            () => {
+              // Stop spinner on error too
+              this.loading = false;
+            }
+          );
       }
+    });
+  }
+
+  accordionIndex = 0;
+
+  ngAfterViewInit(): void {
+    // delay the update to avoid ExpressionChanged error
+    setTimeout(() => {
+      this.accordionIndex = this._reviews()?.length ? 0 : -1;
     });
   }
 

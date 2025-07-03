@@ -1,25 +1,31 @@
-<p-card *ngIf="_mediaData() as media" class="movie-card hover-animate" [routerLink]="['/' + type(), media.id]">
-  <ng-template #header>
-    <img alt="Card" class="movie__img" [src]="getImageUrl(media)" [alt]="media.title || media.name"
-      (error)="onImageError($event)" />
-  </ng-template>
-  <h3> {{ media.title || media.name}} </h3>
-  <div class="movie__info">
-    <p> {{ media.release_date || media.first_air_date}} </p>
-    <i class="pi" [ngClass]="this.moviesStore.isInWatchList(media.id)  ? 'pi-heart-fill active' : 'pi-heart'"
-      (click)="this.moviesStore.addToWatchList($event,media)"></i>
-  </div>
-  <div class="progress-ring">
-    <svg viewBox="0 0 36 36" class="circular-chart" [ngClass]="getColorClass(media.vote_average)">
-      <path class="circle-bg" d="M18 2.0845
-         a 15.9155 15.9155 0 0 1 0 31.831
-         a 15.9155 15.9155 0 0 1 0 -31.831" />
-      <path class="circle" [attr.stroke-dasharray]="getVoteAveragePercent(media.vote_average) + ', 100'" d="M18 2.0845
-         a 15.9155 15.9155 0 0 1 0 31.831
-         a 15.9155 15.9155 0 0 1 0 -31.831" />
-      <text x="18" y="20.35" class="percentage">
-        {{ getVoteAveragePercent(media.vote_average) }}%
-      </text>
-    </svg>
-  </div>
-</p-card>
+<ng-container *ngIf="_mediaData() as media">
+  <ng-container *ngIf="type() as mediaType">
+    <p-card class="movie-card hover-animate" [routerLink]="['/' + mediaType, media.id]">
+      <ng-template #header>
+        <img class="movie__img" [src]="getImageUrl(media)" [alt]="media.title || media.name"
+          (error)="onImageError($event)" />
+      </ng-template>
+
+      <h3>{{ media.title || media.name }}</h3>
+      <div class="movie__info">
+        <p>{{ media.release_date || media.first_air_date }}</p>
+        <i class="pi" [ngClass]="moviesStore.isInWatchList(media.id, mediaType) ? 'pi-heart-fill active' : 'pi-heart'"
+          (click)="moviesStore.addToWatchList($event, media, mediaType)">
+        </i>
+      </div>
+      <div class="progress-ring">
+        <svg viewBox="0 0 36 36" class="circular-chart" [ngClass]="getColorClass(media.vote_average)">
+          <path class="circle-bg" d="M18 2.0845
+               a 15.9155 15.9155 0 0 1 0 31.831
+               a 15.9155 15.9155 0 0 1 0 -31.831" />
+          <path class="circle" [attr.stroke-dasharray]="getVoteAveragePercent(media.vote_average) + ', 100'" d="M18 2.0845
+               a 15.9155 15.9155 0 0 1 0 31.831
+               a 15.9155 15.9155 0 0 1 0 -31.831" />
+          <text x="18" y="20.35" class="percentage">
+            {{ getVoteAveragePercent(media.vote_average) }}%
+          </text>
+        </svg>
+      </div>
+    </p-card>
+  </ng-container>
+</ng-container>

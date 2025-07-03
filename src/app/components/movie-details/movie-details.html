@@ -1,39 +1,52 @@
-<ng-container *ngIf="_movie() as media; else loading ">
+<!-- Loading Spinner -->
+<div class="spinner-wrapper" *ngIf="loading">
+  <p-progressSpinner styleClass="spinner"></p-progressSpinner>
+</div>
 
+<!-- Movie Card -->
+<ng-container *ngIf="_movie() as media">
   <p-card class="movie-card">
     <div class="movie-card__content">
+      <!-- Image -->
       <div class="movie-card__img">
         <img class="movie__img" *ngIf="media.poster_path || media.profile_path"
           [src]="'https://image.tmdb.org/t/p/w500' + (media.poster_path || media.profile_path)"
-          [alt]="media.title||media.name" />
+          [alt]="media.title || media.name" />
       </div>
+
+      <!-- Details -->
       <div class="movie-card__details">
         <div class="card-title">
-          <h2>{{media.title||media.name}}</h2>
-          <i class="pi" [ngClass]="moviesStore.isInWatchList(media.id)  ? 'pi-heart-fill active' : 'pi-heart'"
-            (click)="moviesStore.addToWatchList($event, media)"></i>
+          <h2>{{ media.title || media.name }}</h2>
+          <i class="pi" [ngClass]="moviesStore.isInWatchList(media.id, mediaType) ? 'pi-heart-fill active' : 'pi-heart'"
+            (click)="moviesStore.addToWatchList($event, media, mediaType)">
+          </i>
         </div>
 
         <div class="release-rating">
-          <span class="release-date">{{ media.release_date || media.first_air_date}}</span>
+          <span class="release-date">{{ media.release_date || media.first_air_date }}</span>
         </div>
 
         <div class="rating-stars">
           <ng-container *ngFor="let star of [1,2,3,4,5]">
             <i class="pi" [ngClass]="{
-              'pi-star-fill': star <= media.vote_average/2,
-              'pi-star': star > media.vote_average/2
-            }"></i>
+                'pi-star-fill': star <= media.vote_average/2,
+                'pi-star': star > media.vote_average/2
+              }"></i>
           </ng-container>
-          <span class="vote-count">{{media.vote_count}}</span>
+          <span class="vote-count">{{ media.vote_count }}</span>
         </div>
 
-        <p class="movie__description"> {{media.overview}}</p>
+        <p class="movie__description">{{ media.overview }}</p>
+
+        <!-- Genres -->
         <div class="movie__genres">
-          @for (genre of media.genres; track $index) {
-          <span class="genre">{{genre.name}}</span>
-          }
+          <ng-container *ngFor="let genre of media.genres; let i = index">
+            <span class="genre">{{ genre.name }}</span>
+          </ng-container>
         </div>
+
+        <!-- Info -->
         <div class="movie__info">
           <span>Duration:
             <span>
@@ -43,77 +56,68 @@
           </span>
           <span>Languages:
             <span>
-              {{ media.spoken_languages && media.spoken_languages.length > 0 ? media.spoken_languages[0].name : 'N/A' }}
+              {{ media.spoken_languages?.[0]?.name || 'N/A' }}
             </span>
           </span>
         </div>
+
+        <!-- Companies -->
         <div class="movie-companys__logos">
-          @for (logo of media.production_companies; track $index) {
-
-          <img class="movie__logo" *ngIf="logo.logo_path" [src]="'https://image.tmdb.org/t/p/w185' + (logo.logo_path )"
-            [alt]="media.title" />
-          }
+          <ng-container *ngFor="let logo of media.production_companies; let i = index">
+            <img class="movie__logo" *ngIf="logo.logo_path" [src]="'https://image.tmdb.org/t/p/w185' + logo.logo_path"
+              [alt]="media.title" />
+          </ng-container>
         </div>
+
+        <!-- Buttons -->
         <div class="movie__btns">
+          <a pButton [href]="media.homepage" target="_blank" [rounded]="true" iconPos="right" label="Website"
+            icon="pi pi-link" class="link-btn"></a>
           <a pButton [href]="'https://www.imdb.com/title/' + media.imdb_id" target="_blank" [rounded]="true"
-            iconPos="right" label="IMDB" icon="pi pi-globe" class="link-btn">
-          </a>
-          <a pButton href={{media.homepage}} target="_blank" [rounded]="true" iconPos="right" label="Website"
-            icon="pi pi-link" class="link-btn">
-          </a>
+            iconPos="right" label="IMDB" icon="pi pi-globe" class="link-btn"></a>
         </div>
-
       </div>
     </div>
   </p-card>
 
+  <!-- Reviews -->
+  <ng-container *ngIf="_reviews()?.length > 0; else noReviews">
+    <h2 class="reviews__title">Reviews</h2>
+    <p-accordion [value]="accordionIndex">
+      <ng-container *ngFor="let review of _reviews()">
+        <div class="review-accordion">
+          <p-accordion-panel [value]="review.author">
+            <p-accordion-header>Author: {{ review.author }}</p-accordion-header>
+            <p-accordion-content>
+              <p class="review-date">{{ review.created_at | date }}</p>
+              <p class="review-content">{{ review.content }}</p>
+            </p-accordion-content>
+          </p-accordion-panel>
+        </div>
+      </ng-container>
+    </p-accordion>
+  </ng-container>
+  <ng-template #noReviews>
+    <div class="no-reviews">
+      <p>No reviews yet</p>
+    </div>
+  </ng-template>
+
+  <!-- Recommendations -->
+  <ng-container *ngIf="_recommendations() as recMovies; else noRecs">
+    <div class="carousel__wrapper">
+      <h2 class="rec">Recommendations</h2>
+      <p-carousel [value]="recMovies" [numVisible]="5" [numScroll]="1" [circular]="true"
+        [style]="{ 'margin': '0 -0.5rem' }">
+        <ng-template pTemplate="item" let-movie>
+          <div class="carousel-item-wrapper">
+            <app-movie-card [_mediaData]="movie" [type]="mediaType" class="small-card"></app-movie-card>
+          </div>
+        </ng-template>
+      </p-carousel>
+    </div>
+  </ng-container>
+  <ng-template #noRecs>
+    <div class="loading">Sorry, no recommendations for this title.</div>
+  </ng-template>
 </ng-container>
-
-@if (_reviews() && _reviews().length > 0) {
-<h2 class="reviews__title">Reviews</h2>
-
-<p-accordion [value]="0">
-  @for (review of _reviews(); track review.id) {
-  <div class="review-accordion">
-
-    <p-accordion-panel [value]="review.author">
-      <p-accordion-header>Author: {{ review.author }}</p-accordion-header>
-      <p-accordion-content>
-        <p class="review-date">{{ review.created_at| date }}</p>
-        <p class="review-content">{{ review.content }}</p>
-      </p-accordion-content>
-    </p-accordion-panel>
-  </div>
-  }
-</p-accordion>
-
-}
-
-@if (_reviews() && _reviews().length === 0) {
-<div class="no-reviews">
-  <p>No reviews yet</p>
-</div>
-}
-
-<!-- RECOMMENDATION SECTION -->
-<div *ngIf="_recommendations() as recMovies; else noRec " class="carousel__wrapper">
-  <h2 class="rec">Recommendations</h2>
-  <p-carousel [value]="recMovies" [numVisible]="5" [numScroll]="1" [circular]="true"
-    [style]="{ 'margin': '0 -0.5rem' }">
-    <ng-template pTemplate="item" let-movie>
-      <div class="carousel-item-wrapper">
-        <app-movie-card [_mediaData]="movie" [type]="mediaType" class="small-card"></app-movie-card>
-      </div>
-    </ng-template>
-  </p-carousel>
-</div>
-<ng-template #loading>
-  <div class="loading">
-    Loading Details...
-  </div>
-</ng-template>
-<ng-template #noRec>
-  <div class="loading">
-    Sory there is no Recommendations for this movie
-  </div>
-</ng-template>

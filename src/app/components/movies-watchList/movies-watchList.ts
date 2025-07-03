@@ -12,8 +12,4 @@ import { RouterLink } from '@angular/router';
 })
 export class MoviesWatchList {
   moviesStore = inject(MovieStore);
-
-  test() {
-    console.log(this.moviesStore.totalWatchList());
-  }
 }
