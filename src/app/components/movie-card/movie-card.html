@@ -1,24 +1,24 @@
-<p-card *ngIf="_movie() as movie" class="movie-card hover-animate" [routerLink]="['/movie', movie.id]">
+<p-card *ngIf="_mediaData() as media" class="movie-card hover-animate" [routerLink]="['/' + type(), media.id]">
   <ng-template #header>
     <img alt="Card" class="movie__img"
-      [src]="'https://image.tmdb.org/t/p/w500' + (movie.poster_path || movie.profile_path)" [alt]="movie.title" />
+      [src]="'https://image.tmdb.org/t/p/w500' + (media.poster_path || media.profile_path)" [alt]="media.title" />
   </ng-template>
-  <h3> {{ movie.title }} </h3>
+  <h3> {{ media.title || media.name}} </h3>
   <div class="movie__info">
-    <p> {{ movie.release_date }} </p>
-    <i class="pi" [ngClass]="this.moviesStore.isInWatchList(movie.id)  ? 'pi-heart-fill active' : 'pi-heart'"
-      (click)="this.moviesStore.addToWatchList($event,movie)"></i>
+    <p> {{ media.release_date || media.first_air_date}} </p>
+    <i class="pi" [ngClass]="this.moviesStore.isInWatchList(media.id)  ? 'pi-heart-fill active' : 'pi-heart'"
+      (click)="this.moviesStore.addToWatchList($event,media)"></i>
   </div>
   <div class="progress-ring">
-    <svg viewBox="0 0 36 36" class="circular-chart" [ngClass]="getColorClass(movie.vote_average)">
+    <svg viewBox="0 0 36 36" class="circular-chart" [ngClass]="getColorClass(media.vote_average)">
       <path class="circle-bg" d="M18 2.0845
          a 15.9155 15.9155 0 0 1 0 31.831
          a 15.9155 15.9155 0 0 1 0 -31.831" />
-      <path class="circle" [attr.stroke-dasharray]="getVoteAveragePercent(movie.vote_average) + ', 100'" d="M18 2.0845
+      <path class="circle" [attr.stroke-dasharray]="getVoteAveragePercent(media.vote_average) + ', 100'" d="M18 2.0845
          a 15.9155 15.9155 0 0 1 0 31.831
          a 15.9155 15.9155 0 0 1 0 -31.831" />
       <text x="18" y="20.35" class="percentage">
-        {{ getVoteAveragePercent(movie.vote_average) }}%
+        {{ getVoteAveragePercent(media.vote_average) }}%
       </text>
     </svg>
   </div>

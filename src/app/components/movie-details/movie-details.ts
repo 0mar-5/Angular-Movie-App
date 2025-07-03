@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, inject, signal, OnDestroy, OnInit } from '@angular/core';
 import { MoviesService } from '../../Services/movies-service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -11,55 +11,61 @@ import { MovieCard } from '../movie-card/movie-card';
 
 @Component({
   selector: 'app-movie-details',
+  standalone: true,
   imports: [CardModule, CommonModule, ButtonModule, CarouselModule, MovieCard],
   templateUrl: './movie-details.html',
   styleUrl: './movie-details.scss',
 })
 export class MovieDetails implements OnInit, OnDestroy {
-  readonly _movie = signal<any | null>(null);
-  readonly _recommendations = signal<[] | null>(null);
+  private route = inject(ActivatedRoute);
+  private movieService = inject(MoviesService);
+  readonly moviesStore = inject(MovieStore);
 
-  moviesStore = inject(MovieStore);
-  private movieObserval?: Subscription;
-  constructor(
-    private movieService: MoviesService,
-    private route: ActivatedRoute
-  ) {}
+  readonly _movie = signal<any | null>(null);
+  readonly _recommendations = signal<any[] | null>(null);
+
+  private movieSub?: Subscription;
+  private recommendationsSub?: Subscription;
+  public mediaType: 'movie' | 'tv' = 'movie';
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      const movieId = params.get('id');
-      if (movieId) {
-        console.log('Fetching movie:', movieId);
+      const id = params.get('id');
+      const path = this.route.snapshot.routeConfig?.path;
+
+      if (path?.startsWith('tv')) {
+        this.mediaType = 'tv';
+      } else {
+        this.mediaType = 'movie';
+      }
+
+      if (id) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        this.movieObserval = this.movieService
-          .getMovieById(movieId)
+
+        this.movieSub = this.movieService
+          .getMovieById(this.mediaType, id)
           .subscribe((data) => {
             this._movie.set(data);
-            console.log(this._movie());
 
-            this.movieService
-              .getMoviesRecommendations(movieId)
-              .subscribe((movies: any) => {
-                this._recommendations.set(movies);
-                console.log(this._recommendations());
-              });
+            this.recommendationsSub = this.movieService
+              .getMediaRecommendations(this.mediaType, id)
+              .subscribe((recs) => this._recommendations.set(recs));
           });
       }
     });
   }
 
-  getVoteAveragePercent(movieRate: number): number {
-    return Math.round((movieRate || 0) * 10);
+  getVoteAveragePercent(rate: number): number {
+    return Math.round((rate || 0) * 10);
   }
+
   getColorClass(score: number): string {
     const percent = this.getVoteAveragePercent(score);
     return percent >= 70 ? 'green-stroke' : 'yellow-stroke';
   }
 
   ngOnDestroy(): void {
-    if (this.movieObserval) {
-      this.movieObserval.unsubscribe();
-    }
+    this.movieSub?.unsubscribe();
+    this.recommendationsSub?.unsubscribe();
   }
 }

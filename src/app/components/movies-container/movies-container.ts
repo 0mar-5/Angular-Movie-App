@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, input, OnInit, signal } from '@angular/core';
 import { MovieCard } from '../movie-card/movie-card';
 import { MoviesService } from '../../Services/movies-service';
 import { PaginatorModule } from 'primeng/paginator';
@@ -21,6 +21,7 @@ import { Hero } from '../hero/hero';
 export class MoviesContainer implements OnInit {
   moviesArr = signal<any[]>([]);
   loading = signal(false);
+  readonly type = input<'movie' | 'tv'>('movie');
 
   first = 0;
   rows = 10;
@@ -32,7 +33,7 @@ export class MoviesContainer implements OnInit {
   }
 
   loadMovies(page: number) {
-    this.moviesService.getNowPlaying(page).subscribe((movies) => {
+    this.moviesService.getMediaPages(this.type(), page).subscribe((movies) => {
       this.moviesArr.set(movies);
       console.log(this.moviesArr());
     });

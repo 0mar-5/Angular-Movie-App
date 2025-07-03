@@ -84,6 +84,8 @@
       margin-top: 1rem;
       display: flex;
       gap: 2rem;
+      flex-wrap: wrap;
+
       .movie__logo {
         width: 125px;
         height: 47px;

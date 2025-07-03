@@ -2,40 +2,38 @@
 <h2 class="watchList">My Watch list </h2>
 <div class="movie__wrapper">
   @for (movie of moviesStore.watchList(); track movie.id) {
-  <p-card class="movie-card" [routerLink]="['/movie', movie.id]">
+  @let type = movie.title ? 'movie' : 'tv';
+  <p-card class="movie-card" [routerLink]="['/' + type, movie.id]">
     <ng-template #header>
       <img alt="Card" class="movie__img"
-        [src]="'https://image.tmdb.org/t/p/w500' + (movie.poster_path || movie.profile_path)" [alt]="movie.title" />
+        [src]="'https://image.tmdb.org/t/p/w500' + (movie.poster_path || movie.profile_path)"
+        [alt]="movie.title || movie.name" />
     </ng-template>
     <div class="card-header">
       <div class="card-title">
-        <h2>{{movie.title}}</h2>
-        <i class="pi" [ngClass]="this.moviesStore.isInWatchList(movie.id)  ? 'pi-heart-fill active' : 'pi-heart'"
-          (click)="this.moviesStore.addToWatchList($event,movie)"></i>
+        <h2>{{ movie.title || movie.name }}</h2>
+        <i class="pi" [ngClass]="moviesStore.isInWatchList(movie.id) ? 'pi-heart-fill active' : 'pi-heart'"
+          (click)="moviesStore.addToWatchList($event, movie)"></i>
       </div>
       <div class="release-rating">
-        <span class="release-date">{{movie.release_date}}</span>
+        <span class="release-date">{{ movie.release_date || movie.first_air_date }}</span>
       </div>
       <div class="rating-stars">
         <ng-container *ngFor="let star of [1,2,3,4,5]">
           <i class="pi" [ngClass]="{
-            'pi-star-fill': star <= movie.vote_average/2,
-            'pi-star': star > movie.vote_average/2
-          }"></i>
+                'pi-star-fill': star <= movie.vote_average / 2,
+                'pi-star': star > movie.vote_average / 2
+              }"></i>
         </ng-container>
-        <span class="vote-count">{{movie.vote_count}}</span>
+        <span class="vote-count">{{ movie.vote_count }}</span>
       </div>
-      <p class="movie__description"> {{
-        movie.overview
-        ?.split(' ')
-        .slice(0, 50)
-        .join(' ')
-        }}...</p>
+      <p class="movie__description">
+        {{ movie.overview?.split(' ').slice(0, 50).join(' ') }}...
+      </p>
     </div>
-
   </p-card>
   }
 </div>
-}@else {
-<p class="no-movies">No Movies in watch list </p>
+} @else {
+<p class="no-movies">No Movies in watch list</p>
 }

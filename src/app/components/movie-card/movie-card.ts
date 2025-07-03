@@ -24,7 +24,8 @@ import { RouterLink } from '@angular/router';
 })
 export class MovieCard {
   moviesStore = inject(MovieStore);
-  readonly _movie = input<any>();
+  readonly _mediaData = input<any>();
+  readonly type = input<'movie' | 'tv'>('movie');
 
   getVoteAveragePercent(movieRate: number): number {
     return Math.round((movieRate || 0) * 10);

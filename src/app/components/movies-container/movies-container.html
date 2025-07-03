@@ -2,7 +2,7 @@
 <h2>Now Playing</h2>
 <section class="movies__wrapper">
   @for (movie of moviesArr(); track movie.id) {
-  <app-movie-card [_movie]="movie" />
+  <app-movie-card [_mediaData]="movie" [type]="type()" />
   }
   <div *ngIf="loading()" class="spinner-wrapper">
     <p-progressSpinner />
@@ -12,5 +12,4 @@
     <p-paginator [first]="first" [rows]="rows" [totalRecords]="rows * 30" [showCurrentPageReport]="true"
       alwaysShow="true" (onPageChange)="onPageChange($event)" />
   </div>
-
 </section>
