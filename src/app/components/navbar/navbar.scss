@@ -1,6 +1,6 @@
 :host ::ng-deep {
   .p-menubar {
-    padding: 20px !important;
+    padding: 12px !important;
     border-radius: 0 !important;
     background: var(--primary-500) !important;
     justify-content: space-between;
@@ -18,12 +18,27 @@
     display: flex;
     justify-content: flex-end;
   }
-  .p-button {
-    color: var(--primary-contrast-500) !important ;
-  }
+
   .p-menubar-end {
     flex: 0 0 auto !important;
     width: auto !important;
     margin-left: 0 !important ;
+  }
+}
+.end-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+::ng-deep .custom-button {
+  background-color: var(--primary-500) !important;
+  color: var(--primary-contrast-500) !important;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  .p-badge {
+    height: 1.2rem;
+    width: 1.2rem;
+    display: flex;
+    align-items: center;
   }
 }

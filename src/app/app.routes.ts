@@ -9,7 +9,7 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'wishlist',
+    path: 'watchlist',
     loadComponent: () =>
       import('./components/movies-watchList/movies-watchList').then(
         (m) => m.MoviesWatchList

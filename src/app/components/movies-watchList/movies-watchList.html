@@ -1,8 +1,8 @@
-<h2 class="watchList">My Watch list </h2>
 @if(moviesStore.totalWatchList()>0){
+<h2 class="watchList">My Watch list </h2>
 <div class="movie__wrapper">
   @for (movie of moviesStore.watchList(); track movie.id) {
-  <p-card class="movie-card">
+  <p-card class="movie-card" [routerLink]="['/movie', movie.id]">
     <ng-template #header>
       <img alt="Card" class="movie__img"
         [src]="'https://image.tmdb.org/t/p/w500' + (movie.poster_path || movie.profile_path)" [alt]="movie.title" />
@@ -37,5 +37,5 @@
   }
 </div>
 }@else {
-<p>There is no movies in the watch list.</p>
+<p class="no-movies">No Movies in watch list </p>
 }

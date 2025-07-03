@@ -1,4 +1,4 @@
-<p-card *ngIf="_movie() as movie" class="movie-card hover-animate">
+<p-card *ngIf="_movie() as movie" class="movie-card hover-animate" [routerLink]="['/movie', movie.id]">
   <ng-template #header>
     <img alt="Card" class="movie__img"
       [src]="'https://image.tmdb.org/t/p/w500' + (movie.poster_path || movie.profile_path)" [alt]="movie.title" />

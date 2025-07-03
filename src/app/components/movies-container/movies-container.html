@@ -9,8 +9,8 @@
     <p>Loading...</p>
   </div>
   <div class="paginator-wrapper">
-    <p-paginator [first]="first" [rows]="rows" [totalRecords]="rows * 30" showCurrentPageReport="true" alwaysShow="true"
-      (onPageChange)="onPageChange($event)" />
+    <p-paginator [first]="first" [rows]="rows" [totalRecords]="rows * 30" [showCurrentPageReport]="true"
+      alwaysShow="true" (onPageChange)="onPageChange($event)" />
   </div>
 
 </section>

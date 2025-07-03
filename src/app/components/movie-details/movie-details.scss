@@ -1,0 +1,145 @@
+::ng-deep .p-card {
+  margin-top: 1rem;
+}
+
+.movie-card {
+  .movie-card__content {
+    display: flex;
+    gap: 2.5rem;
+    align-items: flex-start;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  .movie-card__img {
+    flex: 0 0 350px;
+
+    img {
+      width: 100%;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+  }
+
+  .movie-card__details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .card-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      h2 {
+        margin: 0;
+      }
+
+      .pi {
+        font-size: 1.5rem;
+        cursor: pointer;
+
+        &.active {
+          color: #fbc02d;
+        }
+      }
+    }
+
+    .release-rating,
+    .rating-stars {
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .release-date {
+      color: #858585;
+      padding-bottom: 0.8rem;
+    }
+
+    .movie__description {
+      margin-top: 1rem;
+      color: var(--primary-contrast-500);
+      line-height: 20px;
+    }
+    .movie__genres {
+      padding-top: 1rem;
+      display: flex;
+      gap: 0.5rem;
+      .genre {
+        background-color: var(--primary-500);
+        color: var(--primary-contrast-500);
+        font-size: 16px;
+        font-weight: 400;
+        padding: 6px 12px;
+        border-radius: 20px;
+      }
+    }
+
+    .movie-companys__logos {
+      margin-top: 1rem;
+      display: flex;
+      gap: 2rem;
+      .movie__logo {
+        width: 125px;
+        height: 47px;
+        object-fit: contain;
+      }
+    }
+
+    .movie__info {
+      display: flex;
+      gap: 1rem;
+      padding: 30px 0;
+      span {
+        font-size: 16px;
+        font-weight: 600;
+        padding-left: 0.5rem;
+        span {
+          font-weight: 400;
+        }
+      }
+    }
+  }
+}
+
+::ng-deep .link-btn {
+  background-color: transparent;
+  color: var(--primary-contrast-500);
+  border: 1px solid var(--primary-contrast-500);
+  margin-top: 3rem;
+  margin-left: 0.5rem;
+  width: fit-content;
+}
+
+.rec {
+  margin: 2rem 0;
+  padding-left: 1.5rem;
+}
+
+//carousel style
+
+::ng-deep .p-carousel-item-list {
+  gap: 1rem;
+}
+::ng-deep .p-carousel-item {
+  flex: 1 0 17% !important;
+}
+::ng-deep .p-card-content {
+  h3 {
+    font-size: 0.8rem !important;
+  }
+}
+.carousel__wrapper {
+  padding: 0 0.5rem;
+}
+
+.loading {
+  width: 100%;
+  margin: 10rem auto;
+  text-align: center;
+}

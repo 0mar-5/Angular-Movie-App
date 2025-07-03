@@ -6,6 +6,7 @@ import { CardModule } from 'primeng/card';
 import { RatingModule } from 'primeng/rating';
 import { ButtonModule } from 'primeng/button';
 import { MovieStore } from '../../store/movie.store';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-movie-card',
@@ -16,6 +17,7 @@ import { MovieStore } from '../../store/movie.store';
     RatingModule,
     ButtonModule,
     KnobModule,
+    RouterLink,
   ],
   templateUrl: './movie-card.html',
   styleUrl: './movie-card.scss',

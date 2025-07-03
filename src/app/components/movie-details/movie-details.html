@@ -1,1 +1,76 @@
-<p>movie-details works!</p>
+<ng-container *ngIf="_movie() as movie; else loading ">
+
+  <p-card class="movie-card">
+    <div class="movie-card__content">
+      <div class="movie-card__img">
+        <img class="movie__img" *ngIf="movie.poster_path || movie.profile_path"
+          [src]="'https://image.tmdb.org/t/p/w500' + (movie.poster_path || movie.profile_path)" [alt]="movie.title" />
+      </div>
+      <div class="movie-card__details">
+        <div class="card-title">
+          <h2>{{movie.title}}</h2>
+          <i class="pi" [ngClass]="moviesStore.isInWatchList(movie.id)  ? 'pi-heart-fill active' : 'pi-heart'"
+            (click)="moviesStore.addToWatchList($event, movie)"></i>
+        </div>
+
+        <div class="release-rating">
+          <span class="release-date">{{movie.release_date}}</span>
+        </div>
+
+        <div class="rating-stars">
+          <ng-container *ngFor="let star of [1,2,3,4,5]">
+            <i class="pi" [ngClass]="{
+              'pi-star-fill': star <= movie.vote_average/2,
+              'pi-star': star > movie.vote_average/2
+            }"></i>
+          </ng-container>
+          <span class="vote-count">{{movie.vote_count}}</span>
+        </div>
+
+        <p class="movie__description"> {{movie.overview}}</p>
+        <div class="movie__genres">
+          @for (genre of movie.genres; track $index) {
+          <span class="genre">{{genre.name}}</span>
+          }
+        </div>
+        <div class="movie__info">
+          <span>Duration: <span>{{movie.runtime}} Min </span></span>
+          <span>Languages: <span>{{movie.spoken_languages[0].name }} </span></span>
+        </div>
+        <div class="movie-companys__logos">
+          @for (logo of movie.production_companies; track $index) {
+
+          <img class="movie__logo" *ngIf="logo.logo_path" [src]="'https://image.tmdb.org/t/p/w185' + (logo.logo_path )"
+            [alt]="movie.title" />
+          }
+        </div>
+        <div class="movie__btns">
+          <a pButton [href]="'https://www.imdb.com/title/' + movie.imdb_id" target="_blank" [rounded]="true"
+            iconPos="right" label="IMDB" icon="pi pi-globe" class="link-btn">
+          </a>
+          <a pButton href={{movie.homepage}} target="_blank" [rounded]="true" iconPos="right" label="Website"
+            icon="pi pi-link" class="link-btn">
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </p-card>
+
+</ng-container>
+<div *ngIf="_recommendations() as recMovies; " class="carousel__wrapper">
+  <h2 class="rec">Recommendations</h2>
+  <p-carousel [value]="recMovies" [numVisible]="5" [numScroll]="1" [circular]="true"
+    [style]="{ 'margin': '0 -0.5rem' }">
+    <ng-template pTemplate="item" let-movie>
+      <div class="carousel-item-wrapper">
+        <app-movie-card [_movie]="movie" class="small-card"></app-movie-card>
+      </div>
+    </ng-template>
+  </p-carousel>
+</div>
+<ng-template #loading>
+  <div class="loading">
+    Loading Details...
+  </div>
+</ng-template>

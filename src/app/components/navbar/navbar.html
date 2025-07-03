@@ -2,6 +2,12 @@
   <ng-template pTemplate="start" class="navbar">
     <a routerLink="/" class="font-bold text-xl text-primary logo">🎬 Movie App</a>
   </ng-template>
-  <button pButton [label]="isDark() ? 'Light Mode' : 'Dark Mode'" [icon]="isDark() ? 'pi pi-sun' : 'pi pi-moon'"
-    class="p-button-sm" (click)="toggleDarkMode()"></button>
+  <ng-template pTemplate="end">
+    <div class="end-buttons">
+      <p-button label="Watch list" icon="pi pi-heart" badge={{moviesStore.totalWatchList()}} badgeSeverity="contrast"
+        styleClass="custom-button" routerLink="/watchlist"></p-button>
+      <button pButton [label]="isDark() ? 'Light Mode' : 'Dark Mode'" [icon]="isDark() ? 'pi pi-sun' : 'pi pi-moon'"
+        class="custom-button" (click)="toggleDarkMode()"></button>
+    </div>
+  </ng-template>
 </p-menubar>

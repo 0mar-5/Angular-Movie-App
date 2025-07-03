@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { MenubarModule } from 'primeng/menubar';
 import { ButtonModule } from 'primeng/button';
 import { RouterLink } from '@angular/router';
+import { MovieStore } from '../../store/movie.store';
 
 @Component({
   selector: 'app-navbar',
@@ -11,6 +12,8 @@ import { RouterLink } from '@angular/router';
   styleUrl: './navbar.scss',
 })
 export class Navbar implements OnInit {
+  moviesStore = inject(MovieStore);
+
   menuItems = signal<any[]>([]);
   isDark = signal(false);
 
@@ -49,11 +52,6 @@ export class Navbar implements OnInit {
         label: 'TV Shows',
         icon: 'pi pi-video',
         routerLink: '/tv',
-      },
-      {
-        label: 'Wishlist',
-        icon: 'pi pi-heart',
-        routerLink: '/wishlist',
       },
       {
         label: 'Register',
