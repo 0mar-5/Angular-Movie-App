@@ -1,18 +1,12 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
+import { Search } from '../search/search';
 @Component({
   selector: 'app-hero',
-  imports: [FormsModule, CardModule, InputTextModule, ButtonModule],
+  imports: [CardModule, InputTextModule, ButtonModule, Search],
   templateUrl: './hero.html',
   styleUrl: './hero.scss',
 })
-export class Hero {
-  searchQuery = '';
-
-  onSearch() {
-    console.log('Searching for:', this.searchQuery);
-  }
-}
+export class Hero {}

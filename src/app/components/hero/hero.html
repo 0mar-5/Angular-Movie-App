@@ -6,10 +6,6 @@
 
     <p>Millions of movies, TV shows and people to discover. Explore now.</p>
 
-    <div class="search-bar">
-      <input type="text" pInputText [(ngModel)]="searchQuery" placeholder="Search and explore...."
-        (keyup.enter)="onSearch()" />
-      <button pButton type="button" label="Search" (click)="onSearch()"></button>
-    </div>
+    <app-search></app-search>
   </p-card>
 </section>

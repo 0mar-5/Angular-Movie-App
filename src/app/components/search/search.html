@@ -1,1 +1,15 @@
-<p>search works!</p>
+<div class="search-bar">
+  <input type="text" pInputText name="search" [ngModel]="searchQuery()" (ngModelChange)="handleInput($event)"
+    (keydown.enter)="triggerSearch()" placeholder="Search and explore...." />
+  <button pButton type="button" label="Search" (click)="triggerSearch()">Search</button>
+</div>
+<div *ngIf="isLoading()">Loading...</div>
+
+<div *ngIf="searchResults().length > 0" class="results movies__wrapper">
+  <app-movie-card *ngFor="let media of searchResults()" [_mediaData]="media"
+    [type]="media.title ? 'movie' : 'tv'"></app-movie-card>
+</div>
+
+<div *ngIf="!isLoading() && searchResults().length === 0 && searchQuery().length > 0">
+  <p>No results found.</p>
+</div>
