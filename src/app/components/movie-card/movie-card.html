@@ -1,3 +1,5 @@
+<p-toast position="top-center" [baseZIndex]="10000" [life]="2000"></p-toast>
+
 <ng-container *ngIf="_mediaData() as media">
   <ng-container *ngIf="type() as mediaType">
     <p-card class="movie-card hover-animate" [routerLink]="['/' + mediaType, media.id]">
@@ -6,11 +8,15 @@
           (error)="onImageError($event)" />
       </ng-template>
 
-      <h3>{{ media.title || media.name }}</h3>
+      <h3> {{
+        (media.title || media.name).length > 20
+        ? (media.title || media.name).substring(0, 20) + '...'
+        : (media.title || media.name)
+        }}</h3>
       <div class="movie__info">
         <p>{{ media.release_date || media.first_air_date }}</p>
         <i class="pi" [ngClass]="moviesStore.isInWatchList(media.id, mediaType) ? 'pi-heart-fill active' : 'pi-heart'"
-          (click)="moviesStore.addToWatchList($event, media, mediaType)">
+          (click)="handleWatchList($event, media, type())">
         </i>
       </div>
       <div class="progress-ring">

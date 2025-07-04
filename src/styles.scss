@@ -29,7 +29,15 @@ body {
   --primary-contrast-500: #fff;
   --p-inputtext-background: #020617 !important;
 }
+html[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
 
+html[dir="ltr"] {
+  direction: ltr;
+  text-align: left;
+}
 // general styles
 .container {
   width: 100%;
@@ -62,13 +70,42 @@ p {
 
 // loadding spinner
 .spinner-wrapper {
-  justify-self: center;
-  align-self: center;
-  margin: 2rem 0;
+  position: absolute;
+  top: 50%;
+  right: 50%;
 
   p {
     font-size: 1.2rem;
     font-weight: 500;
     color: #000;
   }
+}
+// media wrapper styles
+.movies__wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  padding: 1rem;
+  align-items: stretch;
+}
+@media (max-width: 1200px) {
+  .movies__wrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 875px) {
+  .movies__wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .movies__wrapper {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.p-toast.p-toast-top-center {
+  top: 2px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
 }

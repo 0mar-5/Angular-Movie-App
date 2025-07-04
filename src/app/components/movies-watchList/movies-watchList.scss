@@ -197,3 +197,18 @@
     font-size: 1rem;
   }
 }
+
+.fallback__empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 5rem;
+  button {
+    cursor: pointer;
+    padding: 10px 80px;
+    background-color: var(--primary-500);
+    border: none;
+    border-radius: 10px;
+  }
+}

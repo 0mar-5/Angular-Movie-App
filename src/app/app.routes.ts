@@ -16,12 +16,44 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'tv',
+    loadComponent: () =>
+      import('./components/tv-container/tv-container').then(
+        (m) => m.TvContainer
+      ),
+  },
+  {
     path: 'movie/:id',
     loadComponent: () =>
       import('./components/movie-details/movie-details').then(
         (m) => m.MovieDetails
       ),
   },
+  {
+    path: 'tv/:id',
+    loadComponent: () =>
+      import('./components/movie-details/movie-details').then(
+        (m) => m.MovieDetails
+      ),
+  },
+  {
+    path: 'search',
+    loadComponent: () =>
+      import('./components/search/search').then((m) => m.Search),
+  },
+  {
+    path: 'popular-movies',
+    loadComponent: () =>
+      import('./components/popular-movies/popular-movies').then(
+        (m) => m.PopularMovies
+      ),
+  },
+  {
+    path: 'popular-tv',
+    loadComponent: () =>
+      import('./components/popular-tv/popular-tv').then((m) => m.PopularTv),
+  },
+
   {
     path: '**',
     loadComponent: () =>

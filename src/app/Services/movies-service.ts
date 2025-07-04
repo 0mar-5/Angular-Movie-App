@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 
@@ -14,19 +14,33 @@ export class MoviesService {
 
   constructor(private http: HttpClient) {}
 
-  getMovieById(id: number | string): Observable<any> {
+  getMovieById(type: 'movie' | 'tv', id: number | string): Observable<any> {
     return this.http.get<{ results: any[] }>(
-      `https://api.themoviedb.org/3/movie/${id}`,
+      `https://api.themoviedb.org/3/${type}/${id}`,
       {
         headers: this.headers,
       }
     );
   }
 
-  getNowPlaying(page: number): Observable<any[]> {
+  getMediaPages(type: 'movie' | 'tv', page: number): Observable<any[]> {
+    let url: string = '';
+    if (type === 'movie') {
+      url = `https://api.themoviedb.org/3/movie/now_playing?page=${page}&language=en`;
+    } else {
+      url = `https://api.themoviedb.org/3/tv/on_the_air?page=${page}&language=en`;
+    }
+    return this.http
+      .get<{ results: any[] }>(url, {
+        headers: this.headers,
+      })
+      .pipe(map((res) => res.results));
+  }
+
+  getMediaRecommendations(type: 'movie' | 'tv', movieId: string | number) {
     return this.http
       .get<{ results: any[] }>(
-        `https://api.themoviedb.org/3/movie/now_playing?page=${page}`,
+        `https://api.themoviedb.org/3/${type}/${movieId}/recommendations`,
         {
           headers: this.headers,
         }
@@ -34,10 +48,34 @@ export class MoviesService {
       .pipe(map((res) => res.results));
   }
 
-  getMoviesRecommendations(movieId: string | number) {
+  search(query: string): Observable<any[]> {
     return this.http
       .get<{ results: any[] }>(
-        `https://api.themoviedb.org/3/movie/${movieId}/recommendations`,
+        `https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(
+          query
+        )}`,
+        {
+          headers: this.headers,
+        }
+      )
+      .pipe(map((res) => res.results));
+  }
+
+  getReviews(type: 'movie' | 'tv', mediaId: string): Observable<any[]> {
+    return this.http
+      .get<{ results: any[] }>(
+        `https://api.themoviedb.org/3/${type}/${mediaId}/reviews`,
+        {
+          headers: this.headers,
+        }
+      )
+      .pipe(map((res) => res.results));
+  }
+
+  getPopularMedia(type: 'movie' | 'tv') {
+    return this.http
+      .get<{ results: any[] }>(
+        ` https://api.themoviedb.org/3/${type}/popular`,
         {
           headers: this.headers,
         }

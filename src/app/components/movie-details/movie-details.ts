@@ -10,6 +10,8 @@ import { CarouselModule } from 'primeng/carousel';
 import { MovieCard } from '../movie-card/movie-card';
 import { AccordionModule } from 'primeng/accordion';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-movie-details',
@@ -21,7 +23,10 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     MovieCard,
     AccordionModule,
     ProgressSpinnerModule,
+    ToastModule,
   ],
+  providers: [MessageService],
+
   templateUrl: './movie-details.html',
   styleUrl: './movie-details.scss',
 })
@@ -33,6 +38,8 @@ export class MovieDetails implements OnInit, OnDestroy {
   readonly _movie = signal<any | null>(null);
   readonly _reviews = signal<any | null>(null);
   readonly _recommendations = signal<any[] | null>(null);
+
+  messageService = inject(MessageService);
 
   private movieSub?: Subscription;
   private recommendationsSub?: Subscription;
@@ -105,5 +112,50 @@ export class MovieDetails implements OnInit, OnDestroy {
     this.movieSub?.unsubscribe();
     this.recommendationsSub?.unsubscribe();
     this.reviewsSub?.unsubscribe();
+  }
+  // Responsive Carousel
+  responsiveOptions = [
+    {
+      breakpoint: '1024px',
+      numVisible: 4,
+      numScroll: 1,
+    },
+    {
+      breakpoint: '768px',
+      numVisible: 3,
+      numScroll: 1,
+    },
+    {
+      breakpoint: '560px',
+      numVisible: 2,
+      numScroll: 1,
+    },
+    {
+      breakpoint: '400px',
+      numVisible: 1,
+      numScroll: 1,
+    },
+  ];
+
+  toggleWatchList(event: Event, media: any, type: 'movie' | 'tv') {
+    const isInWatchList = this.moviesStore.isInWatchList(media.id, type);
+    this.moviesStore.addToWatchList(event, media, type);
+
+    this.messageService.add({
+      severity: isInWatchList ? 'warn' : 'success',
+      summary: isInWatchList ? 'Removed' : 'Added',
+      detail: `${media.title || media.name} ${
+        isInWatchList ? 'removed from' : 'added to'
+      } your watchlist.`,
+    });
+  }
+  onWatchListToggled(event: { added: boolean; media: any }) {
+    this.messageService.add({
+      severity: event.added ? 'success' : 'warn',
+      summary: event.added ? 'Added' : 'Removed',
+      detail: `${event.media.title || event.media.name} ${
+        event.added ? 'added to' : 'removed from'
+      } your watchlist.`,
+    });
   }
 }

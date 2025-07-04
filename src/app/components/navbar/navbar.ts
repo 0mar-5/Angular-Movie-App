@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { MenubarModule } from 'primeng/menubar';
 import { ButtonModule } from 'primeng/button';
 import { RouterLink } from '@angular/router';
 import { MovieStore } from '../../store/movie.store';
-import { LanguageService } from '../../Services/language-service';
 
 @Component({
   selector: 'app-navbar',

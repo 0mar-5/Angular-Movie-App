@@ -1,3 +1,5 @@
+<p-toast position="top-center" [baseZIndex]="10000" [life]="2000"></p-toast>
+
 <!-- Loading Spinner -->
 <div class="spinner-wrapper" *ngIf="loading">
   <p-progressSpinner styleClass="spinner"></p-progressSpinner>
@@ -19,7 +21,7 @@
         <div class="card-title">
           <h2>{{ media.title || media.name }}</h2>
           <i class="pi" [ngClass]="moviesStore.isInWatchList(media.id, mediaType) ? 'pi-heart-fill active' : 'pi-heart'"
-            (click)="moviesStore.addToWatchList($event, media, mediaType)">
+            (click)="toggleWatchList($event, media, mediaType)">
           </i>
         </div>
 
@@ -108,10 +110,11 @@
     <div class="carousel__wrapper">
       <h2 class="rec">Recommendations</h2>
       <p-carousel [value]="recMovies" [numVisible]="5" [numScroll]="1" [circular]="true"
-        [style]="{ 'margin': '0 -0.5rem' }">
+        [responsiveOptions]="responsiveOptions" [style]="{ 'margin': '0 -0.5rem' }">
         <ng-template pTemplate="item" let-movie>
           <div class="carousel-item-wrapper">
-            <app-movie-card [_mediaData]="movie" [type]="mediaType" class="small-card"></app-movie-card>
+            <app-movie-card [_mediaData]="movie" [type]="mediaType" class="small-card"
+              (watchListToggled)="onWatchListToggled($event)"></app-movie-card>
           </div>
         </ng-template>
       </p-carousel>

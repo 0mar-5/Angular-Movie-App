@@ -128,9 +128,7 @@
 ::ng-deep .p-carousel-item-list {
   gap: 1rem;
 }
-::ng-deep .p-carousel-item {
-  flex: 1 0 17% !important;
-}
+
 ::ng-deep .p-card-content {
   h3 {
     font-size: 0.8rem !important;
@@ -184,4 +182,44 @@
   font-weight: 600;
   text-align: center;
   padding: 2rem 0;
+}
+
+@media (max-width: 1050px) {
+  ::ng-deep .p-card {
+    h3 {
+      font-size: 0.7rem !important;
+    }
+    p {
+      font-size: 10px;
+    }
+    .pi {
+      font-size: 1.2rem !important;
+    }
+    .p-card-body {
+      padding: 10px !important;
+    }
+  }
+}
+
+@media (max-width: 460px) {
+  .rec {
+    padding-left: 0;
+  }
+  ::ng-deep .p-card {
+    h3 {
+      font-size: 0.6rem !important;
+    }
+    p {
+      font-size: 9px;
+    }
+    .pi {
+      font-size: 1rem !important;
+    }
+    .p-card-body {
+      padding: 8px !important;
+    }
+  }
+  ::ng-deep.p-carousel-viewport .p-carousel-item-list {
+    gap: 0rem !important;
+  }
 }
