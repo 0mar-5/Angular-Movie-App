@@ -4,9 +4,7 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./components/movies-container/movies-container').then(
-        (m) => m.MoviesContainer
-      ),
+      import('./pages/home-page/home-page').then((m) => m.HomePage),
   },
   {
     path: 'watchlist',
@@ -38,26 +36,25 @@ export const routes: Routes = [
   },
   {
     path: 'search',
-    loadComponent: () =>
-      import('./components/search/search').then((m) => m.Search),
+    loadComponent: () => import('./pages/search/search').then((m) => m.Search),
   },
   {
     path: 'popular-movies',
     loadComponent: () =>
-      import('./components/popular-movies/popular-movies').then(
+      import('./pages/popular-movies/popular-movies').then(
         (m) => m.PopularMovies
       ),
   },
   {
     path: 'popular-tv',
     loadComponent: () =>
-      import('./components/popular-tv/popular-tv').then((m) => m.PopularTv),
+      import('./pages/popular-tv/popular-tv').then((m) => m.PopularTv),
   },
 
   {
     path: '**',
     loadComponent: () =>
-      import('./components/not-found-page/not-found-page').then(
+      import('./pages/not-found-page/not-found-page').then(
         (m) => m.NotFoundPage
       ),
   },

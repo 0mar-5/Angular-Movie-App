@@ -4,18 +4,11 @@ import { MoviesService } from '../../Services/movies-service';
 import { PaginatorModule } from 'primeng/paginator';
 import { CommonModule } from '@angular/common';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { Hero } from '../hero/hero';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-movies-container',
-  imports: [
-    MovieCard,
-    PaginatorModule,
-    CommonModule,
-    ProgressSpinnerModule,
-    Hero,
-  ],
+  imports: [MovieCard, PaginatorModule, CommonModule, ProgressSpinnerModule],
   templateUrl: './movies-container.html',
   styleUrl: './movies-container.scss',
 })
@@ -40,12 +33,10 @@ export class MoviesContainer implements OnInit, OnDestroy {
       .getMediaPages(this.type(), page)
       .subscribe((movies) => {
         this.moviesArr.set(movies);
-        console.log(this.moviesArr());
       });
   }
 
   onPageChange(event: any) {
-    console.log(event);
     this.first = event.first;
     this.rows = event.rows;
     const currentPage = event.page + 1;

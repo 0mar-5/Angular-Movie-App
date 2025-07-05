@@ -57,3 +57,34 @@ h2 {
     }
   }
 }
+
+.paginator-wrapper {
+  padding: 0.5rem;
+
+  ::ng-deep .p-paginator {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+
+    @media (max-width: 600px) {
+      font-size: 0.75rem;
+
+      .p-paginator-first,
+      .p-paginator-prev,
+      .p-paginator-next,
+      .p-paginator-last {
+        display: none !important;
+      }
+      .p-paginator-current {
+        display: none !important;
+      }
+      .p-paginator-page {
+        min-width: 32px;
+        height: 32px;
+        font-size: 0.75rem;
+        padding: 0 6px;
+      }
+    }
+  }
+}

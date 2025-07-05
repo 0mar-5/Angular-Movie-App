@@ -12,6 +12,9 @@ import { AccordionModule } from 'primeng/accordion';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { DialogModule } from 'primeng/dialog';
+import { SafeUrlPipe } from '../../../pipe/safe-url-pipe-pipe';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-movie-details',
@@ -24,6 +27,8 @@ import { MessageService } from 'primeng/api';
     AccordionModule,
     ProgressSpinnerModule,
     ToastModule,
+    DialogModule,
+    SafeUrlPipe,
   ],
   providers: [MessageService],
 
@@ -44,8 +49,11 @@ export class MovieDetails implements OnInit, OnDestroy {
   private movieSub?: Subscription;
   private recommendationsSub?: Subscription;
   private reviewsSub?: Subscription;
+  private trailerSub?: Subscription;
   public mediaType: 'movie' | 'tv' = 'movie';
+
   loading = true;
+  constructor(private cdRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     // Show spinner
@@ -68,7 +76,6 @@ export class MovieDetails implements OnInit, OnDestroy {
           .subscribe(
             (data) => {
               this._movie.set(data);
-              console.log(this._movie());
               this.loading = false;
               this.recommendationsSub = this.movieService
                 .getMediaRecommendations(this.mediaType, id)
@@ -78,7 +85,6 @@ export class MovieDetails implements OnInit, OnDestroy {
                 .getReviews(this.mediaType, id)
                 .subscribe((reviews) => {
                   this._reviews.set(reviews);
-                  console.log(this._reviews());
                 });
             },
             () => {
@@ -87,6 +93,30 @@ export class MovieDetails implements OnInit, OnDestroy {
             }
           );
       }
+    });
+  }
+  trailerUrl: string | null = null;
+  trailerDialogVisible: boolean = false;
+
+  openTrailer(type: 'movie' | 'tv', id: number): void {
+    this.movieService.getMovieTrailer(type, id).subscribe({
+      next: (url) => {
+        this.trailerUrl = url;
+
+        setTimeout(() => {
+          this.trailerDialogVisible = true;
+          this.cdRef.detectChanges();
+        });
+      },
+      error: (err) => {
+        console.error('Error loading trailer:', err);
+        this.trailerUrl = null;
+
+        setTimeout(() => {
+          this.trailerDialogVisible = true;
+          this.cdRef.detectChanges();
+        });
+      },
     });
   }
 
@@ -108,11 +138,6 @@ export class MovieDetails implements OnInit, OnDestroy {
     return percent >= 70 ? 'green-stroke' : 'yellow-stroke';
   }
 
-  ngOnDestroy(): void {
-    this.movieSub?.unsubscribe();
-    this.recommendationsSub?.unsubscribe();
-    this.reviewsSub?.unsubscribe();
-  }
   // Responsive Carousel
   responsiveOptions = [
     {
@@ -157,5 +182,11 @@ export class MovieDetails implements OnInit, OnDestroy {
         event.added ? 'added to' : 'removed from'
       } your watchlist.`,
     });
+  }
+  ngOnDestroy(): void {
+    this.movieSub?.unsubscribe();
+    this.recommendationsSub?.unsubscribe();
+    this.reviewsSub?.unsubscribe();
+    this.trailerSub?.unsubscribe();
   }
 }

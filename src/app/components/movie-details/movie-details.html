@@ -65,7 +65,7 @@
 
         <!-- Companies -->
         <div class="movie-companys__logos">
-          <ng-container *ngFor="let logo of media.production_companies; let i = index">
+          <ng-container *ngFor="let logo of media.production_companies.slice(0, 3); let i = index">
             <img class="movie__logo" *ngIf="logo.logo_path" [src]="'https://image.tmdb.org/t/p/w185' + logo.logo_path"
               [alt]="media.title" />
           </ng-container>
@@ -73,6 +73,20 @@
 
         <!-- Buttons -->
         <div class="movie__btns">
+          <button pButton type="button" icon="pi pi-play" label="Watch Trailer"
+            (click)="openTrailer(mediaType, media.id)"></button>
+          <p-dialog [(visible)]="trailerDialogVisible" [modal]="true" [dismissableMask]="true"
+            [style]="{ width: '60vw' }" [styleClass]="'custom-dialog'" [contentStyle]="{ overflow: 'hidden' }"
+            header="Official Trailer" (onHide)="trailerUrl = null">
+            <ng-container *ngIf="trailerUrl; else noTrailer">
+              <iframe [src]="trailerUrl | safeUrl" width="100%" height="400" frameborder="0" allowfullscreen></iframe>
+            </ng-container>
+
+            <ng-template #noTrailer>
+              <p>No official trailer found.</p>
+            </ng-template>
+          </p-dialog>
+
           <a pButton [href]="media.homepage" target="_blank" [rounded]="true" iconPos="right" label="Website"
             icon="pi pi-link" class="link-btn"></a>
           <a pButton [href]="'https://www.imdb.com/title/' + media.imdb_id" target="_blank" [rounded]="true"

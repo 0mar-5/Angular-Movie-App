@@ -42,3 +42,24 @@
     align-items: center;
   }
 }
+
+@media (max-width: 960px) {
+  ::ng-deep .p-menubar-mobile .p-menubar-button {
+    order: -1 !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .end-buttons {
+    gap: 0.2rem !important;
+    ::ng-deep .hide-label-mobile .p-button-label {
+      display: none !important;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  ::ng-deep .p-menubar-start a {
+    font-size: 22px !important;
+  }
+}

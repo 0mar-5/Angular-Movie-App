@@ -98,8 +98,5 @@ export class Navbar implements OnInit {
 
   logout() {
     this.isLoggedIn.set(false);
-    this.generateMenuItems();
-
-    console.log(this.isLoggedIn());
   }
 }

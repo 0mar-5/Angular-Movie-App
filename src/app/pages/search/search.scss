@@ -23,3 +23,17 @@
   background-color: var(--primary-500);
   color: var(--primary-contrast-500);
 }
+.ceter-text {
+  font-size: 1.5rem;
+  text-align: center;
+  padding: 1rem;
+}
+@media (max-width: 400px) {
+  .search-bar {
+    padding-bottom: 0rem;
+    margin-top: 1.5rem;
+  }
+  .search-bar input {
+    width: 90%;
+  }
+}

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MovieCard } from '../movie-card/movie-card';
+import { MovieCard } from '../../components/movie-card/movie-card';
 import { MoviesService } from '../../Services/movies-service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { debounceTime, Subject, Subscription } from 'rxjs';

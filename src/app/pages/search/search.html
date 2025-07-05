@@ -5,7 +5,7 @@
 </div>
 
 @if (isLoading()) {
-<div>Loading...</div>
+<div class="ceter-text">Loading...</div>
 }
 
 @if (searchResults().length > 0 ) {
@@ -16,5 +16,5 @@
 }
 
 @if (!isLoading() && searchResults().length === 0 && searchQuery().length > 0) {
-<p>No results found.</p>
+<p class="ceter-text">No results found.</p>
 }

@@ -16,3 +16,22 @@
   font-size: 1.2rem;
   margin-bottom: 2rem;
 }
+
+@media (max-width: 400px) {
+  ::ng-deep .hero-card .p-card-body {
+    padding: 0.5rem !important;
+  }
+  ::ng-deep .hero-card .p-card-header h2 {
+    font-size: 1.3rem;
+    padding-top: 1.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  ::ng-deep .hero-card .p-card-content p {
+    font-size: 0.8rem;
+    margin-bottom: 0.2rem;
+  }
+  ::ng-deep .hero-card .p-card-body {
+    padding: 0.5rem !important;
+  }
+}

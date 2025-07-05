@@ -83,24 +83,24 @@ p {
 // media wrapper styles
 .movies__wrapper {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 1fr) !important;
   gap: 1.5rem;
   padding: 1rem;
   align-items: stretch;
 }
 @media (max-width: 1200px) {
   .movies__wrapper {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr) !important;
   }
 }
 @media (max-width: 875px) {
   .movies__wrapper {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr) !important;
   }
 }
 @media (max-width: 600px) {
   .movies__wrapper {
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(1, 1fr) !important  ;
   }
 }
 

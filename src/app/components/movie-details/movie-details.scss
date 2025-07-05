@@ -202,9 +202,6 @@
 }
 
 @media (max-width: 460px) {
-  .rec {
-    padding-left: 0;
-  }
   ::ng-deep .p-card {
     h3 {
       font-size: 0.6rem !important;
@@ -221,5 +218,16 @@
   }
   ::ng-deep.p-carousel-viewport .p-carousel-item-list {
     gap: 0rem !important;
+  }
+}
+
+//video
+::ng-deep .custom-dialog {
+  width: 70% !important;
+}
+
+@media (max-width: 800px) {
+  ::ng-deep .custom-dialog {
+    width: 90% !important;
   }
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Popular } from '../popular/popular';
+import { Popular } from '../../components/popular/popular';
 
 @Component({
   selector: 'app-popular-tv',

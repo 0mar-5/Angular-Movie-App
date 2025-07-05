@@ -5,9 +5,9 @@
   <ng-template pTemplate="end">
     <div class="end-buttons">
       <p-button label="Watch list" icon="pi pi-heart" badge={{moviesStore.totalCombinedWatchList()}}
-        badgeSeverity="contrast" styleClass="custom-button" routerLink="/watchlist"></p-button>
+        badgeSeverity="contrast" styleClass="custom-button hide-label-mobile" routerLink="/watchlist"></p-button>
       <button pButton [label]="isDark() ? 'Light Mode' : 'Dark Mode'" [icon]="isDark() ? 'pi pi-sun' : 'pi pi-moon'"
-        class="custom-button" (click)="toggleDarkMode()"></button>
+        class="custom-button hide-label-mobile" (click)="toggleDarkMode()"></button>
 
     </div>
   </ng-template>

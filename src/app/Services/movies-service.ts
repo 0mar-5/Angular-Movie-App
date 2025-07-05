@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 
@@ -81,5 +81,26 @@ export class MoviesService {
         }
       )
       .pipe(map((res) => res.results));
+  }
+
+  getMovieTrailer(type: 'movie' | 'tv', id: number): Observable<string | null> {
+    const url = `https://api.themoviedb.org/3/${type}/${id}/videos?language`;
+    return this.http
+      .get<{ results: any[] | null }>(url, {
+        headers: this.headers,
+      })
+      .pipe(
+        map((res) => {
+          if (!res.results || res.results.length === 0) return null;
+
+          const trailer = res.results.find(
+            (v) => v.type === 'Trailer' && v.site === 'YouTube'
+          );
+
+          return trailer
+            ? `https://www.youtube.com/embed/${trailer.key}`
+            : null;
+        })
+      );
   }
 }
