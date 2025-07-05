@@ -1,0 +1,1 @@
+import{Qb as p,Ya as n,sb as o,tb as a}from"./chunk-OPX47V4V.js";var i=class t{static \u0275fac=function(e){return new(e||t)};static \u0275cmp=n({type:t,selectors:[["app-not-found-page"]],decls:2,vars:0,template:function(e,d){e&1&&(o(0,"p"),p(1,"not found !"),a())},styles:["p[_ngcontent-%COMP%]{font-size:2rem;text-align:center;padding:2rem}"]})};export{i as NotFoundPage};
