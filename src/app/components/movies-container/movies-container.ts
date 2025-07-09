@@ -5,7 +5,6 @@ import { PaginatorModule } from 'primeng/paginator';
 import { CommonModule } from '@angular/common';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { Subscription } from 'rxjs';
-
 @Component({
   selector: 'app-movies-container',
   imports: [MovieCard, PaginatorModule, CommonModule, ProgressSpinnerModule],

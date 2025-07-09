@@ -163,6 +163,17 @@ export class MovieDetails implements OnInit, OnDestroy {
   ];
 
   toggleWatchList(event: Event, media: any, type: 'movie' | 'tv') {
+    const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
+
+    if (!isLoggedIn) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Login Required',
+        detail: 'You must be logged in to manage your watchlist.',
+      });
+      return;
+    }
+
     const isInWatchList = this.moviesStore.isInWatchList(media.id, type);
     this.moviesStore.addToWatchList(event, media, type);
 
@@ -174,7 +185,18 @@ export class MovieDetails implements OnInit, OnDestroy {
       } your watchlist.`,
     });
   }
+
   onWatchListToggled(event: { added: boolean; media: any }) {
+    const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
+
+    if (!isLoggedIn) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Login Required',
+        detail: 'You must be logged in to manage your watchlist.',
+      });
+      return;
+    }
     this.messageService.add({
       severity: event.added ? 'success' : 'warn',
       summary: event.added ? 'Added' : 'Removed',
@@ -183,6 +205,7 @@ export class MovieDetails implements OnInit, OnDestroy {
       } your watchlist.`,
     });
   }
+
   ngOnDestroy(): void {
     this.movieSub?.unsubscribe();
     this.recommendationsSub?.unsubscribe();

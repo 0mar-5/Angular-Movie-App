@@ -1,0 +1,52 @@
+<section>
+  <p-toast position="top-center" [baseZIndex]="10000" [life]="2000"></p-toast>
+
+  <form [formGroup]="myReactiveForm" (ngSubmit)="formSubmit()">
+    <h2>Register form</h2>
+
+    <div>
+      <label for="name">Name</label>
+      <input id="name" type="text" formControlName="name" autocomplete="name" />
+      @if(myReactiveForm.get('name')?.touched && myReactiveForm.get('name')?.errors){
+      @if(myReactiveForm.get('name')?.getError('required')){
+      <p>This Field is Required</p>
+      } @if(myReactiveForm.get('name')?.getError('minlength')){
+      <p>This Field should be more than 4 letters</p>
+      } }
+    </div>
+    <div>
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email" autocomplete="email" />
+      @if(myReactiveForm.get('email')?.touched && myReactiveForm.get('email')?.errors){
+      @if(myReactiveForm.get('email')?.getError('required')){
+      <p>This Field is Required</p>
+      } @if(myReactiveForm.get('email')?.getError('pattern')){
+      <p>Email is not valid</p>
+      } }
+    </div>
+
+    <div>
+      <label for="password">Password</label>
+      <input id="password" type="password" formControlName="password" />
+      @if(myReactiveForm.get('password')?.touched && myReactiveForm.get('password')?.errors){
+      @if(myReactiveForm.get('password')?.getError('required')){
+      <p>This Field is Required</p>
+      } @if(myReactiveForm.get('password')?.getError('pattern')){
+      <p>password must have at least 8 characters</p>
+      } }
+    </div>
+    <div>
+      <label for="confermPassword">Conferm Password</label>
+      <input id="confermPassword" type="password" formControlName="confermPassword" />
+      @if(myReactiveForm.get('confermPassword')?.touched && myReactiveForm.get('confermPassword')?.errors){
+      @if(myReactiveForm.get('confermPassword')?.getError('required')){
+      <p>This Field is Required</p>
+      }
+      @if(myReactiveForm.get('confermPassword')?.getError('passwordMismatch')){
+      <p>Passwords do not match</p>
+      }
+      }
+    </div>
+    <button [disabled]="!myReactiveForm.valid">Register</button>
+  </form>
+</section>

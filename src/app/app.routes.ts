@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
   {
@@ -8,6 +9,7 @@ export const routes: Routes = [
   },
   {
     path: 'watchlist',
+    canActivate: [AuthGuard],
     loadComponent: () =>
       import('./components/movies-watchList/movies-watchList').then(
         (m) => m.MoviesWatchList
@@ -49,6 +51,16 @@ export const routes: Routes = [
     path: 'popular-tv',
     loadComponent: () =>
       import('./pages/popular-tv/popular-tv').then((m) => m.PopularTv),
+  },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./pages/login-page/login-page').then((m) => m.LoginPage),
+  },
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./pages/register-page/register-page').then((m) => m.RegisterPage),
   },
 
   {

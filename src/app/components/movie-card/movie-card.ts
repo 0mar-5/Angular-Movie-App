@@ -31,7 +31,8 @@ export class MovieCard {
   moviesStore = inject(MovieStore);
   readonly _mediaData = input<any>();
   readonly type = input<'movie' | 'tv'>('movie');
-  messageService = inject(MessageService);
+
+  constructor(private messageService: MessageService) {}
 
   getVoteAveragePercent(movieRate: number): number {
     return Math.round((movieRate || 0) * 10);
@@ -64,17 +65,25 @@ export class MovieCard {
   }
   // adding toster to the ui
   handleWatchList(event: Event, media: any, type: 'movie' | 'tv') {
-    const isInWatchList = this.moviesStore.isInWatchList(media.id, type);
+    const result = this.moviesStore.addToWatchList(event, media, type);
 
-    this.moviesStore.addToWatchList(event, media, type);
-    this.watchListToggled.emit({ added: !isInWatchList, media });
+    if (result === null) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Login Required',
+        detail: 'You must be logged in to add items to your favorites.',
+      });
+      return;
+    }
+
+    this.watchListToggled.emit({ added: result, media });
 
     this.messageService.add({
-      severity: isInWatchList ? 'warn' : 'success',
-      summary: isInWatchList ? 'Removed' : 'Added',
+      severity: result ? 'success' : 'info',
+      summary: result ? 'Added' : 'Removed',
       detail: `${media.title || media.name} has been ${
-        isInWatchList ? 'removed from' : 'added to'
-      } your watchlist.`,
+        result ? 'added to' : 'removed from'
+      } your favorites.`,
     });
   }
 }

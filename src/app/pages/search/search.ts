@@ -38,11 +38,13 @@ export class Search implements OnDestroy {
         const query = value.trim();
         if (!query) {
           this.router.navigate(['/']);
-        } else {
-          this.router.navigate(['/search'], {
-            queryParams: { query },
-          });
-          this.search(query);
+        } else if (query.length > 3) {
+          setTimeout(() => {
+            this.router.navigate(['/search'], {
+              queryParams: { query },
+            });
+            this.search(query);
+          }, 1500);
         }
       });
   }

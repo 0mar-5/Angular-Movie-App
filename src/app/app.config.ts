@@ -10,6 +10,7 @@ import { providePrimeNG } from 'primeng/config';
 import { routes } from './app.routes';
 import MyCustomColors from './MyCustomColors';
 import { HttpClientModule } from '@angular/common/http';
+import { MessageService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,6 +19,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     importProvidersFrom(HttpClientModule),
     provideAnimationsAsync(),
+    MessageService,
     providePrimeNG({
       theme: {
         preset: MyCustomColors,

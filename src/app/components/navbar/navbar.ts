@@ -1,31 +1,45 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Router, RouterLink, NavigationEnd } from '@angular/router';
 import { MenubarModule } from 'primeng/menubar';
 import { ButtonModule } from 'primeng/button';
-import { RouterLink } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { MovieStore } from '../../store/movie.store';
 
 @Component({
   selector: 'app-navbar',
+  standalone: true,
   imports: [CommonModule, ButtonModule, MenubarModule, RouterLink],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
 })
 export class Navbar implements OnInit {
+  router = inject(Router);
   moviesStore = inject(MovieStore);
 
   menuItems = signal<any[]>([]);
   isDark = signal(false);
-
-  isLoggedIn = signal(true);
-  user = {
-    name: 'Omar',
-    email: 'omar@example.com',
-  };
+  isLoggedIn = signal(false);
+  userName = signal<string | null>(null);
 
   ngOnInit() {
+    this.loadTheme();
+    this.checkAuthState();
     this.generateMenuItems();
 
+    this.router.events
+      .pipe(
+        filter(
+          (event): event is NavigationEnd => event instanceof NavigationEnd
+        )
+      )
+      .subscribe(() => {
+        this.checkAuthState();
+        this.generateMenuItems();
+      });
+  }
+
+  loadTheme() {
     const theme = localStorage.getItem('theme');
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
@@ -36,13 +50,27 @@ export class Navbar implements OnInit {
   toggleDarkMode() {
     const html = document.documentElement;
     html.classList.toggle('dark');
-    this.isDark.set(html.classList.contains('dark'));
-    localStorage.setItem('theme', this.isDark() ? 'dark' : 'light');
+    const dark = html.classList.contains('dark');
+    this.isDark.set(dark);
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
+  }
+
+  checkAuthState() {
+    const loggedIn = localStorage.getItem('loggedIn') === 'true';
+    const userData = localStorage.getItem('userData');
+
+    this.isLoggedIn.set(loggedIn);
+
+    if (loggedIn && userData) {
+      const user = JSON.parse(userData);
+      this.userName.set(user.name || null);
+    } else {
+      this.userName.set(null);
+    }
   }
 
   generateMenuItems() {
-    this.menuItems.update((prev) => [
-      ...prev,
+    const baseMenu = [
       {
         label: 'Home',
         icon: 'pi pi-home',
@@ -58,7 +86,7 @@ export class Navbar implements OnInit {
         icon: 'pi pi-star',
         items: [
           {
-            label: 'movies',
+            label: 'Movies',
             icon: 'pi pi-camera',
             routerLink: '/popular-movies',
           },
@@ -69,34 +97,36 @@ export class Navbar implements OnInit {
           },
         ],
       },
-      this.isLoggedIn()
-        ? {
-            label: this.user.name,
-            icon: 'pi pi-user',
-            styleClass: 'auth-link',
-            items: [
-              {
-                label: 'Profile',
-                icon: 'pi pi-id-card',
-                routerLink: '/profile',
-              },
-              {
-                label: 'Logout',
-                icon: 'pi pi-sign-out',
-                command: () => this.logout(),
-              },
-            ],
-          }
-        : {
-            label: 'Login',
-            icon: 'pi pi-sign-in',
-            routerLink: '/login',
-            styleClass: 'auth-link',
-          },
-    ]);
-  }
+    ];
 
+    const authMenu = this.isLoggedIn()
+      ? {
+          label: this.userName(),
+          icon: 'pi pi-user',
+          styleClass: 'auth-link',
+          items: [
+            {
+              label: 'Logout',
+              icon: 'pi pi-sign-out',
+              command: () => this.logout(),
+            },
+          ],
+        }
+      : {
+          label: 'Login',
+          icon: 'pi pi-sign-in',
+          routerLink: '/login',
+          styleClass: 'auth-link',
+        };
+
+    this.menuItems.set([...baseMenu, authMenu]);
+  }
   logout() {
+    localStorage.removeItem('loggedIn');
+    localStorage.removeItem('userData');
+    this.moviesStore.clearWatchList();
     this.isLoggedIn.set(false);
+    this.userName.set(null);
+    this.router.navigate(['/login']);
   }
 }

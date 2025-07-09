@@ -1,5 +1,10 @@
 :host ::ng-deep {
   .p-menubar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
     padding: 12px !important;
     border-radius: 0 !important;
     background: var(--primary-500) !important;

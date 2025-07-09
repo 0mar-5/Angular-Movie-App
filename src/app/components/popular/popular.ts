@@ -21,7 +21,6 @@ export class Popular implements OnInit, OnDestroy {
       .getPopularMedia(this.type())
       .subscribe((movies) => {
         this.mediaArr.set(movies);
-        console.log(this.mediaArr());
       });
   }
 

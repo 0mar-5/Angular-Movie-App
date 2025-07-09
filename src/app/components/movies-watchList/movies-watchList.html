@@ -1,97 +1,99 @@
-@if (moviesStore.movieWatchList().length > 0) {
-<h2 class="watchList">Movies Watch List</h2>
-<div class="movie__wrapper">
-  @for (movie of moviesStore.movieWatchList(); track movie.id) {
-  <p-card class="movie-card" [routerLink]="['/movie', movie.id]">
-    <ng-template #header>
-      <img alt="Card" class="movie__img"
-        [src]="'https://image.tmdb.org/t/p/w500' + (movie.poster_path || movie.profile_path)" [alt]="movie.title" />
-    </ng-template>
-    <div class="card-header">
-      <div class="card-title">
-        <h2>{{ movie.title }}</h2>
-        <i class="pi" [ngClass]="moviesStore.isInWatchList(movie.id, 'movie') ? 'pi-heart-fill active' : 'pi-heart'"
-          (click)="moviesStore.addToWatchList($event, movie, 'movie')">
-        </i>
-      </div>
+<section>
+  @if (moviesStore.movieWatchList().length > 0) {
+  <h2 class="watchList">Movies Watch List</h2>
+  <div class="movie__wrapper">
+    @for (movie of moviesStore.movieWatchList(); track movie.id) {
+    <p-card class="movie-card" [routerLink]="['/movie', movie.id]">
+      <ng-template #header>
+        <img alt="Card" class="movie__img"
+          [src]="'https://image.tmdb.org/t/p/w500' + (movie.poster_path || movie.profile_path)" [alt]="movie.title" />
+      </ng-template>
+      <div class="card-header">
+        <div class="card-title">
+          <h2>{{ movie.title }}</h2>
+          <i class="pi" [ngClass]="moviesStore.isInWatchList(movie.id, 'movie') ? 'pi-heart-fill active' : 'pi-heart'"
+            (click)="moviesStore.addToWatchList($event, movie, 'movie')">
+          </i>
+        </div>
 
-      <div class="release-rating">
-        <span class="release-date">{{ movie.release_date }}</span>
-      </div>
+        <div class="release-rating">
+          <span class="release-date">{{ movie.release_date }}</span>
+        </div>
 
-      <div class="rating-stars">
-        <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
-          <i class="pi" [ngClass]="{
+        <div class="rating-stars">
+          <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+            <i class="pi" [ngClass]="{
                   'pi-star-fill': star <= movie.vote_average / 2,
                   'pi-star': star > movie.vote_average / 2
                 }"></i>
-        </ng-container>
-        <span class="vote-count">{{ movie.vote_count }}</span>
-      </div>
+          </ng-container>
+          <span class="vote-count">{{ movie.vote_count }}</span>
+        </div>
 
-      <p class="movie__description">
-        {{ movie.overview?.split(' ').slice(0, 50).join(' ') }}...
-      </p>
-    </div>
-  </p-card>
+        <p class="movie__description">
+          {{ movie.overview?.split(' ').slice(0, 50).join(' ') }}...
+        </p>
+      </div>
+    </p-card>
+    }
+  </div>
   }
-</div>
-}
 
-@if (moviesStore.tvWatchList().length > 0) {
-<h2 class="watchList">TV Shows Watch List</h2>
-<div class="movie__wrapper">
-  @for (tv of moviesStore.tvWatchList(); track tv.id) {
-  <p-card class="movie-card" [routerLink]="['/tv', tv.id]">
-    <ng-template #header>
-      <img alt="Card" class="movie__img" [src]="'https://image.tmdb.org/t/p/w500' + (tv.poster_path || tv.profile_path)"
-        [alt]="tv.name" />
-    </ng-template>
-    <div class="card-header">
-      <div class="card-title">
-        <h2>{{ tv.name }}</h2>
-        <i class="pi" [ngClass]="moviesStore.isInWatchList(tv.id, 'tv') ? 'pi-heart-fill active' : 'pi-heart'"
-          (click)="moviesStore.addToWatchList($event, tv, 'tv')">
-        </i>
-      </div>
+  @if (moviesStore.tvWatchList().length > 0) {
+  <h2 class="watchList">TV Shows Watch List</h2>
+  <div class="movie__wrapper">
+    @for (tv of moviesStore.tvWatchList(); track tv.id) {
+    <p-card class="movie-card" [routerLink]="['/tv', tv.id]">
+      <ng-template #header>
+        <img alt="Card" class="movie__img"
+          [src]="'https://image.tmdb.org/t/p/w500' + (tv.poster_path || tv.profile_path)" [alt]="tv.name" />
+      </ng-template>
+      <div class="card-header">
+        <div class="card-title">
+          <h2>{{ tv.name }}</h2>
+          <i class="pi" [ngClass]="moviesStore.isInWatchList(tv.id, 'tv') ? 'pi-heart-fill active' : 'pi-heart'"
+            (click)="moviesStore.addToWatchList($event, tv, 'tv')">
+          </i>
+        </div>
 
-      <div class="release-rating">
-        <span class="release-date">{{ tv.first_air_date }}</span>
-      </div>
+        <div class="release-rating">
+          <span class="release-date">{{ tv.first_air_date }}</span>
+        </div>
 
-      <div class="rating-stars">
-        <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
-          <i class="pi" [ngClass]="{
+        <div class="rating-stars">
+          <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+            <i class="pi" [ngClass]="{
                   'pi-star-fill': star <= tv.vote_average / 2,
                   'pi-star': star > tv.vote_average / 2
                 }"></i>
-        </ng-container>
-        <span class="vote-count">{{ tv.vote_count }}</span>
+          </ng-container>
+          <span class="vote-count">{{ tv.vote_count }}</span>
+        </div>
+
+        <p class="movie__description">
+          {{ tv.overview?.split(' ').slice(0, 50).join(' ') }}...
+        </p>
       </div>
-
-      <p class="movie__description">
-        {{ tv.overview?.split(' ').slice(0, 50).join(' ') }}...
-      </p>
-    </div>
-  </p-card>
+    </p-card>
+    }
+  </div>
   }
-</div>
-}
 
-@if (
-moviesStore.movieWatchList().length === 0 &&
-moviesStore.tvWatchList().length === 0
-) {
-<div class="fallback__empty">
-  <svg width="212" height="212" viewBox="0 0 212 212" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path
-      d="M204.253 73.2113C204.253 84.9256 202.382 95.7544 199.134 105.795C183.58 155.015 135.64 184.449 111.916 192.521C108.569 193.702 103.056 193.702 99.7094 192.521C93.4092 190.355 85.4351 186.713 76.8708 181.594C71.3582 178.346 70.4722 170.667 75.0004 166.139L186.041 55.0983C191.357 49.7826 200.709 52.0467 202.579 59.3312C203.662 63.761 204.253 68.3877 204.253 73.2113Z"
-      fill="#D1D1D1" />
-    <path
-      d="M209.456 2.14107C206.601 -0.71369 201.876 -0.71369 199.021 2.14107L175.987 25.176C168.21 20.7462 159.153 18.1868 149.506 18.1868C131.689 18.1868 115.741 26.8495 105.799 40.1389C95.8564 26.8495 79.9086 18.1868 62.091 18.1868C31.8699 18.1868 7.35839 42.7968 7.35839 73.2147C7.35839 84.9291 9.22874 95.7574 12.4773 105.798C18.8759 126.175 30.8855 143.205 44.4703 156.692L2.14107 199.021C-0.71369 201.876 -0.71369 206.601 2.14107 209.456C3.61767 210.932 5.48803 211.621 7.35839 211.621C9.22874 211.621 11.0991 210.932 12.5757 209.456L209.456 12.5757C212.311 9.72094 212.311 4.99583 209.456 2.14107Z"
-      fill="#D1D1D1" />
-  </svg>
-  <p class="no-movies">No items in your watch list.</p>
-  <button routerLink="/">Back to home</button>
-</div>
-}
+  @if (
+  moviesStore.movieWatchList().length === 0 &&
+  moviesStore.tvWatchList().length === 0
+  ) {
+  <div class="fallback__empty">
+    <svg width="212" height="212" viewBox="0 0 212 212" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M204.253 73.2113C204.253 84.9256 202.382 95.7544 199.134 105.795C183.58 155.015 135.64 184.449 111.916 192.521C108.569 193.702 103.056 193.702 99.7094 192.521C93.4092 190.355 85.4351 186.713 76.8708 181.594C71.3582 178.346 70.4722 170.667 75.0004 166.139L186.041 55.0983C191.357 49.7826 200.709 52.0467 202.579 59.3312C203.662 63.761 204.253 68.3877 204.253 73.2113Z"
+        fill="#D1D1D1" />
+      <path
+        d="M209.456 2.14107C206.601 -0.71369 201.876 -0.71369 199.021 2.14107L175.987 25.176C168.21 20.7462 159.153 18.1868 149.506 18.1868C131.689 18.1868 115.741 26.8495 105.799 40.1389C95.8564 26.8495 79.9086 18.1868 62.091 18.1868C31.8699 18.1868 7.35839 42.7968 7.35839 73.2147C7.35839 84.9291 9.22874 95.7574 12.4773 105.798C18.8759 126.175 30.8855 143.205 44.4703 156.692L2.14107 199.021C-0.71369 201.876 -0.71369 206.601 2.14107 209.456C3.61767 210.932 5.48803 211.621 7.35839 211.621C9.22874 211.621 11.0991 210.932 12.5757 209.456L209.456 12.5757C212.311 9.72094 212.311 4.99583 209.456 2.14107Z"
+        fill="#D1D1D1" />
+    </svg>
+    <p class="no-movies">No items in your watch list.</p>
+    <button routerLink="/">Back to home</button>
+  </div>
+  }
+</section>
