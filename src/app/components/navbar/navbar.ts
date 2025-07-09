@@ -122,9 +122,9 @@ export class Navbar implements OnInit {
     this.menuItems.set([...baseMenu, authMenu]);
   }
   logout() {
+    this.moviesStore.clearWatchList();
     localStorage.removeItem('loggedIn');
     localStorage.removeItem('userData');
-    this.moviesStore.clearWatchList();
     this.isLoggedIn.set(false);
     this.userName.set(null);
     this.router.navigate(['/login']);
